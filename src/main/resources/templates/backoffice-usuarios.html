@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lista de Usuários</title>
+  </head>
+  <body>
+    <!-- Menu component start -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">Best Phones</a>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/Backoffice/Home">HOME</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/Backoffice/Usuarios">USUÁRIOS</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/Backoffice/Produtos">PRODUTOS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">CELULARES</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">CLIENTES</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">VENDAS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">RELATÓRIOS</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- Menu component end -->
+    <main>
+      <div class="container">
+        <h1 class="display-4" style="margin-top: 3rem">Consulta de Usuários</h1>
+        <br>
+        <table class="table table-borderless">
+          <thead class="bg-light">
+            <tr>
+              <th class="text-center">ID</th>
+              <th class="text-center">Nome</th>
+              <th class="text-center">Email</th>
+              <th class="text-center">Cargo</th>
+              <th class="text-center" colspan="2">Ação</th>
+            </tr>
+          </thead>
+          <tr th:each="u: ${usuarios}">
+            <td class="text-center" th:text="${u.id}" />
+            <td class="text-center" th:text="${u.nome}" />
+            <td class="text-center" th:text="${u.email}" />
+            <td class="text-center" th:text="${u.cargo}" />
+            <td class="text-center">
+              <form action="#" th:action="@{/Backoffice/Usuarios/} + ${u.id}" th:method="get">
+                <button class="btn btn-outline-info btn-sm" type="submit" value="submit">Atualizar</button>
+              </form>
+            </td>
+            <td class="text-center">
+              <form action="#" th:action="${'/Backoffice/Usuarios/' + u.id}" th:method="delete">
+                <button class="btn btn-outline-danger btn-sm" type="submit" value="submit" th:disabled="${u.cargo == 'Administrador'}">Excluir</button>
+              </form>
+            </td>
+          </tr>
+        </table>
+        <div style="text-align: right">
+          <a href="/Backoffice/Usuarios/Novo" class="btn btn-success" >Adicionar Usuário</a>
+        </div>
+
+      </div>
+    </main>
+    <!-- Footer component start -->
+    <footer class="footer mt-auto py-3" style="position: relative;left: 0;bottom: 0;width: 100%;text-align: center;">
+      <div class="container">
+        <a class="navbar-brand navbar-light" href="#">Best Phones</a><br/>
+        <span class="text-muted">© 2023 Best Phones - Todos os direitos reservados.</span>
+      </div>
+    </footer>
+    <!-- Footer component end -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
+          id="bootstrap-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <title>Lista de Produtos</title>
+    <style>
+      /* Show navbar not fixed to the top */
+      /*
+        body {
+            min-height: 75rem;
+        }
+      */
+      /* sticky footer css */
+      main>.container {
+        padding: 60px 15px 0;
+      }
+
+      .footer {
+        background-color: #f5f5f5;
+      }
+
+      .footer>.container {
+        padding-right: 15px;
+        padding-left: 15px;
+      }
+
+      code {
+        font-size: 80%;
+      }
+
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media only screen and (max-width: 480px) {
+        p {
+          text-align: center;
+        }
+
+        .botaoComprar {
+          width: 100%;
+        }
+      }
+
+      .quantity {
+        float: left;
+        margin-right: 15px;
+        background-color: #eee;
+        position: relative;
+        width: 80px;
+        overflow: hidden
+      }
+
+      .quantity input {
+        margin: 0;
+        text-align: center;
+        width: 15px;
+        height: 15px;
+        padding: 0;
+        float: right;
+        color: #000;
+        font-size: 20px;
+        border: 0;
+        outline: 0;
+        background-color: #F6F6F6
+      }
+
+      .quantity input.qty {
+        position: relative;
+        border: 0;
+        width: 100%;
+        height: 40px;
+        padding: 10px 25px 10px 10px;
+        text-align: center;
+        font-weight: 400;
+        font-size: 15px;
+        border-radius: 0;
+        background-clip: padding-box
+      }
+
+      .quantity .minus,
+      .quantity .plus {
+        line-height: 0;
+        background-clip: padding-box;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        -webkit-background-size: 6px 30px;
+        -moz-background-size: 6px 30px;
+        color: #bbb;
+        font-size: 20px;
+        position: absolute;
+        height: 50%;
+        border: 0;
+        right: 0;
+        padding: 0;
+        width: 25px;
+        z-index: 3
+      }
+
+      .quantity .minus:hover,
+      .quantity .plus:hover {
+        background-color: #dad8da
+      }
+
+      .quantity .minus {
+        bottom: 0
+      }
+
+      .shopping-cart {
+        margin-top: 20px;
+      }
+      @media only screen and (max-width: 480px) {
+        p {
+          text-align: center;
+        }
+
+        .botaoComprar {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="d-flex flex-column h-100">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+      <a class="navbar-brand" href="/Home">BestPhones</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+              aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/Home">HOME <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/Home?console=PS4">Iphone</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Motorola</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Samsung</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Xiaomi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Asus</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">LG</a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar por celular..." aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+        </form>
+        <div th:if="${session.cliente != null}">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            </svg>
+            Minha Conta
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/DadosPessoais">Alterar meus dados</a>
+            <a class="dropdown-item" href="#">Ver meus pedidos</a>
+            <a class="dropdown-item" href="/Logout">Sair</a>
+          </div>
+        </div>
+      </div>
+      <div th:if="${session.cliente == null}">
+        <a class="btn btn-outline-secondary" href="/Login"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          </svg>Login</a>
+      </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <h1 class="display-4" style="margin-top: 1rem; margin-bottom: 2rem; text-align: center">Carrinho de Compras
+            </h1>
+          </div>
+        </div>
+        <div class="card shopping-cart" style="margin-bottom: 4rem;">
+          <div class="card-body" th:each="produto: ${carrinho}">
+            <!-- PRODUCT -->
+            <div class="row" style="align-items: center;">
+              <div class="col-12 col-sm-12 col-md-2 text-center">
+                <img class="img-responsive"
+                     th:src="${produto.url_imagem}"
+                     alt="prewiew" width="120" height="auto">
+              </div>
+              <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
+                <h4 class="product-name" th:text="${produto.nome}"><strong>Zelda Breath Of The Wild</strong></h4>
+              </div>
+              <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
+                <div class="col-6 col-sm-6 col-md-6 text-md-right" style="padding-top: 5px">
+                  <h6 th:text="'R$ ' + ${produto.preco}"><strong>R$ 350,00 <span class="text-muted">x</span></strong></h6>
+                </div>
+                <div class="col-4 col-sm-4 col-md-4">
+                  <div class="quantity">
+                    <form action="#" th:action="@{/Carrinho/} + ${produto.id} + '/addQtde'" th:method="post">
+                      <button type="submit" value="+" class="plus">+</button>
+                    </form>
+                    <input id="qtdZelda" type="number" step="1" max="99" min="1" th:value="${produto.qtde}" title="Qty" class="qty" size="4">
+                    <form action="#" th:action="@{/Carrinho/} + ${produto.id} + '/removeQtde'" th:method="post">
+                      <button type="submit"  value="-" class="minus">-</button>
+                    </form>
+                  </div>
+                </div>
+                <div class="col-2 col-sm-2 col-md-2 text-right">
+                  <form action="#" th:action="@{/Carrinho/} + ${produto.id}" th:method="delete">
+                    <button class="btn btn-outline-danger btn-sm" type="submit" value="submit">
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor"
+                           xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                      <path fill-rule="evenodd"
+                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                      </svg>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <hr>
+
+
+          </div>
+
+          <div class="card-body">
+            <div class="pull-right">
+              <a th:href="@{/Home}" class="btn btn-outline-secondary pull-right botaoComprar">
+                Continuar Comprando
+              </a>
+            </div>
+          </div>
+          <hr>
+          <form class="form-inline" action="#" th:action="@{/Carrinho/Cep}" th:method="post">
+            
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="inputPassword2" class="sr-only">CEP</label>
+              <input type="text" name="cep" class="form-control" id="cep" th:value="${cep}" placeholder="Digite seu CEP">
+            </div>
+            
+            <button type="submit" class="btn btn-primary mb-2">Consultar</button>
+          </form>
+
+
+          <div class="card-footer" style="text-align: right;">
+            <div class="pull-right" style="margin: 10px">
+              <div class="pull-right" id="text-cep" style="margin: 5px" th:if="${cep != null}">
+                Frete: + R$ 20.00
+              </div>
+              <div class="pull-right" style="margin: 5px">
+                Valor total: <b><strong th:text="'R$ ' + ${total}">R$ 1050.00</strong></b>
+              </div>
+              <button class="btn btn-success pull-right botaoComprar" onclick="let e = document.getElementsByClassName('card-body'); if (e.length < 2) {alert('Carrinho vazio!')} else if (document.getElementById('text-cep') == null) {alert('Preencha seu cep!')} else { location.replace('/Endereco-de-entrega') };">Finalizar Compra</button>
+            </div>
+          </div>
+        </div>
+    </main>
+
+    <footer class="footer mt-auto py-3" style="position: relative;left: 0;bottom: 0;width: 100%;text-align: center;">
+      <div class="container">
+        <a class="navbar-brand navbar-light" href="#">Best Phones</a><br />
+        <span class="text-muted">© 2023 Best Phones - Todos os direitos reservados.</span>
+      </div>
+    </footer>
+
+    <style>
+      @media only screen and (max-width: 600px) {
+        .imagem {
+          width: 200px;
+        }
+      }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+    <script src="carrinho.js"></script>
+
+
+  </body>
+
+</html>

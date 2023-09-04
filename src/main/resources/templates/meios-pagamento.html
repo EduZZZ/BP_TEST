@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://mondrian.claro.com.br/vanilla/mondrian-vanilla-latest.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script src="/validar-cc.js"></script>
+  <title>GamingStore! Lista de Produtos</title>
+  <style>
+    /* Show navbar not fixed to the top */
+    /*
+      body {
+          min-height: 75rem;
+      }
+      */
+    /* sticky footer css */
+    main>.container {
+      padding: 60px 15px 0;
+    }
+
+    .footer {
+      background-color: #f5f5f5;
+    }
+
+    .footer>.container {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+
+    code {
+      font-size: 80%;
+    }
+
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media only screen and (max-width: 480px) {
+      p {
+        text-align: center;
+      }
+
+      .botaoComprar {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body class="d-flex flex-column h-100">
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand" href="#">GamingStore!</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="home.html">HOME <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/Home?console=PS4">PS4</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">XBOX ONE</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">SWITCH</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">PS3</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">XBOX 360</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">3DS</a>
+        </li>
+      </ul>
+      <form class="form-inline mt-2 mt-md-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar por jogo..." aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+      </form>
+    </div>
+    <div th:if="${session.cliente != null}">
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          </svg>
+          Minha Conta
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="/DadosPessoais">Alterar meus dados</a>
+          <a class="dropdown-item" href="#">Ver meus pedidos</a>
+          <a class="dropdown-item" href="/Logout">Sair</a>
+        </div>
+      </div>
+    </div>
+    <div th:if="${session.cliente == null}">
+      <a class="btn btn-outline-secondary" href="/Login"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+        </svg>Login</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h1 class="display-4" style="margin-top: 1rem; margin-bottom: 2rem; text-align: center">Meios de Pagamento</h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-6" style="margin-bottom: 3rem; border-right: 1px solid gray;">
+          <form class="form-horizontal" id="form" action="#" th:action="@{/Meios-de-pagamento/Cartao}" th:method="post">
+            <fieldset>
+              <div id="legend">
+                <legend class="">Cartão de Crédito</legend>
+              </div>
+         
+              <!-- Name -->
+              <div class="control-group">
+                <label class="control-label"  for="username">Nome impresso</label>
+                <div class="controls">
+                  <input type="text" id="username" name="username" placeholder="" onblur="validaUsername()" class="form-control w-50">
+                </div>
+              </div>
+         
+              <!-- Card Number -->
+              <div class="control-group">
+                <label class="control-label" for="email">Número do cartão</label>
+                <div class="controls">
+                  <input type="text" id="email" name="email" placeholder="" onblur="validaNumeroCartao()" class="form-control w-50">
+                </div>
+              </div>
+         
+              <!-- Expiry-->
+              <div class="control-group">
+                <label class="control-label" for="password">Data de expiração</label>
+                <div class="controls">
+                  <select class="form-control w-25 span3" name="expiry_month" onblur="validaExpiry_year()" id="expiry_month">
+                    <option></option>
+                    <option value="01">Jan (01)</option>
+                    <option value="02">Fev (02)</option>
+                    <option value="03">Mar (03)</option>
+                    <option value="04">Abr (04)</option>
+                    <option value="05">Mai (05)</option>
+                    <option value="06">Jun (06)</option>
+                    <option value="07">Jul (07)</option>
+                    <option value="08">Ago (08)</option>
+                    <option value="09">Set (09)</option>
+                    <option value="10">Out (10)</option>
+                    <option value="11">Nov (11)</option>
+                    <option value="12">Dez (12)</option>
+                  </select>
+                  <select class="form-control w-25 span2" name="expiry_year" onblur="validaExpiry_month()">
+                    <option value="21">2021</option>
+                    <option value="22">2022</option>
+                    <option value="23">2023</option>
+                    <option value="24">2024</option>
+                    <option value="25">2025</option>
+                    <option value="26">2026</option>
+                  </select>
+                </div>
+              </div>
+         
+              <!-- CVV -->
+              <div class="control-group">
+                <label class="control-label"  for="password_confirm">CVV</label>
+                <div class="controls">
+                  <input type="password" id="password_confirm" name="password_confirm" onblur="validaSenha()" placeholder="" class="form-control span2 w-25">
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label" for="password">Qtde Parcelas</label>
+                <div class="controls">
+                  <select class="form-control w-25 span2" name="parcelas" onblur="validaExpiry_month()">
+                    <option th:value="1x + ' ' + ${total}" th:text="1x + ' de R$ ' + ${total}">2021</option>
+                    <option th:value="2x + ' ' + ${total} / 2" th:text="2x + ' de R$ ' + ${total} / 2">2022</option>
+                    <option th:value="3x + ' ' + ${total} / 3" th:text="3x + ' de R$ ' + ${total} / 3">2022</option>
+                  </select>
+                </div>
+              </div>
+         
+              <!-- Submit -->
+              <div class="control-group">
+                <div class="controls">
+                  <button class="btn btn-success" onclick="validar();" style="margin-top: 1rem;">Pagar com Cartão</button>
+                </div>
+              </div>
+         
+            </fieldset>
+          </form>
+        </div>
+        <div class="col-sm-6" style="width: 100%; text-align: center;">
+
+          <div id="legend2">
+            <legend class="">Boleto Bancário</legend>
+          </div>
+
+          <div class="control-group">
+            <div class="controls">
+              <form class="form-horizontal" id="form" action="#" th:action="@{/Meios-de-pagamento/Boleto}" th:method="post">
+              <button class="btn btn-success" type="submit" style="margin-top: 1rem;">Pagar com Boleto</button>
+            </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      
+
+    </main>
+
+    <footer class="footer mt-auto py-3" style="position: relative;left: 0;bottom: 0;width: 100%;text-align: center;">
+      <div class="container">
+        <a class="navbar-brand navbar-light" href="#">GamingStore!</a><br/>
+        <span class="text-muted">© 2022 GamingStore! Todos os direitos reservados.</span>
+      </div>
+    </footer>
+
+    <style>
+      @media only screen and (max-width: 600px) {
+        .imagem {
+          width: 200px;
+        }
+      }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="http://mondrian-stg.clarobrasil.mobi/vanilla/mondrian-vanilla-latest.js"></script>
+  </body>
+</html>

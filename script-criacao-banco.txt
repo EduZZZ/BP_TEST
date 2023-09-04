@@ -1,0 +1,139 @@
+create database levegames;
+
+use levegames;
+
+create table clientes(
+	id int primary key not null auto_increment,
+    nome varchar(60) not null,
+    cpf varchar(11) not null,
+    telefone varchar(11) not null,
+    email varchar(60) not null,
+    senha varchar(100) not null
+);
+
+create table cartoes_credito (
+	id int primary key not null auto_increment,
+    cliente_id int not null,
+    numero_cartao varchar(16),
+    nome_estampado varchar(60) not null,
+    validade varchar(5) not null,
+    codigo_seguranca varchar(3) not null,
+    foreign key (cliente_id) references clientes(id)
+);
+
+create table enderecos(
+	id int primary key not null auto_increment,
+    cliente_id int not null,
+    cep varchar(8) not null,
+    logradouro varchar(100) not null,
+    numero varchar(6),
+    complemento varchar(100),
+    bairro varchar(100),
+    cidade varchar(60),
+    estado varchar(2),
+    is_faturamento boolean,
+    foreign key (cliente_id) references clientes(id)
+);
+
+create table consoles(
+	id int primary key not null auto_increment,
+    nome varchar(120) not null
+);
+
+create table produtos(
+	id int primary key not null auto_increment,
+    nome varchar(120) not null,
+    descricao_curta varchar(255),
+    descricao_detalhada text,
+	preco decimal(10, 2) not null,
+    qtde int not null,
+    disponivel_venda boolean,
+    console_id int not null,
+    registro_deletado boolean,
+    foreign key (console_id) references consoles(id)
+);
+
+create table imagens_produto(
+	id int primary key not null auto_increment,
+    produto_id int not null,
+	url_imagem text not null,
+    foreign key (produto_id) references produtos(id)
+);
+
+create table perguntas_respostas_produto(
+	id int primary key not null auto_increment,
+    produto_id int not null,
+	pergunta text not null,
+    resposta text not null,
+    foreign key (produto_id) references produtos(id)
+);
+
+create table status (
+	id int primary key not null auto_increment,
+    status varchar(120) not null
+);
+
+create table meios_pagamento (
+	id int primary key not null auto_increment,
+	nome varchar(50) not null
+);
+
+create table vendas (
+	id int primary key not null auto_increment,
+	cliente_id int not null,
+    endereco_id int not null,
+    data timestamp default current_timestamp,
+    meio_pagamento_id int not null,
+    status_id int not null,
+    codigo_rastreio varchar(30),
+	total decimal(11, 2),
+    obs text,
+    foreign key (cliente_id) references clientes(id),
+    foreign key (endereco_id) references enderecos(id),
+    foreign key (meio_pagamento_id) references meios_pagamento(id),
+	foreign key (status_id) references status(id)
+);
+
+create table vendas_produtos(
+	id int primary key not null auto_increment,
+	produto_id int not null,
+    venda_id int not null,
+    valor decimal(11, 2),
+    qtd int,
+    foreign key (produto_id) references produtos(id),
+    foreign key (venda_id) references vendas(id)
+);
+
+create table usuarios (
+	id int primary key not null auto_increment,
+	nome varchar(60) not null,
+    email varchar(50) not null,
+	senha varchar(100) not null,
+    cargo varchar(100) not null,
+    registro_deletado boolean
+);
+
+insert into clientes (nome, cpf, telefone, email, senha)  values ('Francisca Souza', '11111111111', '11981818181', 'email@email.com', 'teste123'),
+																 ('Rogerinho Tavares', '22222222222', '11982828282', 'email2@email.com', 'teste123');
+
+insert into enderecos (cliente_id, cep, logradouro, numero, complemento, bairro, cidade, estado) values (1, '04843300', 'Rua Nitra', '171', 'Casa B', 'Jardim Itatiaia', 'São Paulo', 'SP'),
+																										(1, '04843301', 'Rua Nitro', '242', '', 'Jardim Luso', 'Piracicaba', 'SP'),
+                                                                                                        (2, '42324222', 'Rua Betoveem', '444', '', 'Jardim Iporanga', 'Fortaleza', 'CE');
+
+insert into consoles (nome) values ('PS4'), ('SWITCH'), ('XBOX ONE'), ('XBOX 360'), ('PS3'), ('3DS'), ('PSVITA');
+
+insert into produtos (nome,descricao_curta,descricao_detalhada,preco,qtde,disponivel_venda,console_id) values ("Legend Of Zelda - Breath Of The Wild", "Entre num mundo de aventuras Esqueça tudo o que sabe sobre os jogos The legend of zelda. Entre num mundo de descoberta, exploração e aventura em The legend of zelda: Breath of the Wild, o novo título que quebra com padrões da série....", "Entre num mundo de aventuras Esqueça tudo o que sabe sobre os jogos The legend of zelda. Entre num mundo de descoberta, exploração e aventura em The legend of zelda: Breath of the Wild, o novo título que quebra com padrões da série. Atravesse campos, florestas e montanhas para descobrir o que aconteceu ao reino arruinado de Hyrule nesta deslumbrante aventura ao ar livre. Explora Hyrule com total liberdade Escale torres e picos de montanhas em busca de novos destinos e defina seu próprio caminho para chegar lá e entrar na floresta. Enquanto isso combata inimigos gigantescos, cace bestas selvagens e reúna ingredientes para os alimentos e as poções que precisará para sobreviver nesta missão. Mais de 100 Shrines of Trials para descobrir e explorar Há santuários espalhados por todo o mundo de Hyrule, santuários esses que terá que descobrir e na ordem que quiser. Procure-os de diversas maneiras e em cada resolva uma variedade de quebra-cabeças.", 378.86, 100, true, 2);
+
+insert into produtos (nome,descricao_curta,descricao_detalhada,preco,qtde,disponivel_venda,console_id) values ("Legend Of Zelda - Breath Of The Wild", "Entre num mundo de aventuras Esqueça tudo o que sabe sobre os jogos The legend of zelda. Entre num mundo de descoberta, exploração e aventura em The legend of zelda: Breath of the Wild, o novo título que quebra com padrões da série....", "Entre num mundo de aventuras Esqueça tudo o que sabe sobre os jogos The legend of zelda. Entre num mundo de descoberta, exploração e aventura em The legend of zelda: Breath of the Wild, o novo título que quebra com padrões da série. Atravesse campos, florestas e montanhas para descobrir o que aconteceu ao reino arruinado de Hyrule nesta deslumbrante aventura ao ar livre. Explora Hyrule com total liberdade Escale torres e picos de montanhas em busca de novos destinos e defina seu próprio caminho para chegar lá e entrar na floresta. Enquanto isso combata inimigos gigantescos, cace bestas selvagens e reúna ingredientes para os alimentos e as poções que precisará para sobreviver nesta missão. Mais de 100 Shrines of Trials para descobrir e explorar Há santuários espalhados por todo o mundo de Hyrule, santuários esses que terá que descobrir e na ordem que quiser. Procure-os de diversas maneiras e em cada resolva uma variedade de quebra-cabeças.", 378.86, 100, true, 2);
+
+insert into status (status) values ('Aguardando Pagamento'), ('Pagamento Realizado'), ('Separando Estoque'), ('Nota Fiscal Emitida'), ('Enviado'), ('Entregue');
+
+insert into meios_pagamento (nome) values ('boleto'), ('cartão de crédito');
+
+
+select imagens_produto.* from imagens_produto inner join produtos on (imagens_produto.produto_id = produtos.id) where produtos.registro_deletado = false and produtos.disponivel_venda = true group by imagens_produto.produto_id;
+
+select consoles.* from consoles inner join produtos on (consoles.id = produtos.console_id) where produtos.registro_deletado = false and produtos.disponivel_venda = true order by produtos.id;
+
+
+select * from produtos;

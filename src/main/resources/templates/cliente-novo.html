@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script src="/cadastro-cliente.js"></script>
+  <title>Lista de Produtos</title>
+</head>
+<body>
+<!-- Menu component start -->
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+  <a class="navbar-brand" href="#">BestPhones</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">HOME <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/Home?console=PS4">Iphone</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Motorola</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Samsung</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Xiaomi</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Asus</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">LG</a>
+      </li>
+    </ul>
+    <form class="form-inline mt-2 mt-md-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar por celular..." aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+    </form>
+  </div>
+  <button class="btn btn-outline-primary mr-sm-2" type="submit"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+  </svg></button>
+  <a class="btn btn-outline-secondary" href="/Login"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+  </svg>Login</a>
+</nav>
+<!-- Menu component end -->
+<main>
+  <div class="container">
+    <h1 class="display-4" style="margin-top: 3rem">Novo Cliente</h1>
+    <form action="#" id="form" th:action="@{/Cliente/Novo}" th:object="${cliente}" method='POST'>
+      <div class="form-group">
+        <label for="nome">Nome:</label>
+        <input type="text" class="form-control" placeholder="Digite seu nome" th:field="*{nome}" id="nome">
+      </div>
+      <div class="form-group">
+        <label for="cpf">CPF:</label>
+        <input type="text" class="form-control w-50" placeholder="Digite seu CPF sem pontos e traços" onblur="validaCPF()" th:field="*{cpf}" id="cpf">
+      </div>
+      <div class="form-group">
+        <label for="telefone">Celular:</label>
+        <input type="text" class="form-control w-50" placeholder="Digite seu celular" th:field="*{telefone}" id="telefone">
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control w-50" placeholder="Digite seu email" th:field="*{email}" id="email">
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="senha">Senha:</label>
+            <input type="password" class="form-control" th:field="*{senha}" id="senha">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="repetirSenha">Repetir Senha:</label>
+            <input type="password" class="form-control" id="repetirSenha" onblur="validaSenhas()">
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="form-group">
+
+        <label for="cep_faturamento">Endereço de faturamento*</label>
+
+        <div class="form-group">
+          <label for="cep_faturamento">CEP:</label>
+          <input type="text" class="form-control" placeholder="Digite o cep" onblur="pesquisacep(this.value)" id="cep_faturamento" name="cep_faturamento">
+        </div>
+        <div class="form-group">
+          <label for="logradouro_faturamento">Logradouro:</label>
+          <input type="text" class="form-control" placeholder="Digite o logradouro" id="logradouro_faturamento" name="logradouro_faturamento">
+        </div>
+        <div class="form-group">
+          <label for="numero_faturamento">Número:</label>
+          <input type="text" class="form-control" placeholder="Digite o número" id="numero_faturamento" name="numero_faturamento">
+        </div>
+        <div class="form-group">
+          <label for="complemento_faturamento">Complemento:</label>
+          <input type="text" class="form-control" placeholder="Digite o complemento" id="complemento_faturamento" name="complemento_faturamento">
+        </div>
+        <div class="form-group">
+          <label for="bairro_faturamento">Bairro:</label>
+          <input type="text" class="form-control" placeholder="Digite o bairro" id="bairro_faturamento" name="bairro_faturamento">
+        </div>
+        <div class="form-group">
+          <label for="cidade_faturamento">Cidade:</label>
+          <input type="text" class="form-control" placeholder="Digite a cidade" id="cidade_faturamento" name="cidade_faturamento">
+        </div>
+        <div class="form-group">
+          <label for="estado_faturamento">Estado:</label>
+          <input type="text" class="form-control" placeholder="Digite o estado" id="estado_faturamento" name="estado_faturamento">
+        </div>
+      </div>
+
+      <hr style="margin-top: 1rem">
+
+      <div class="form-group">
+
+        <label for="cep_entrega">Endereço de entrega*</label>
+
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="usar_endereco_faturamento" onclick="espelharEndereco(this.checked)">
+          <label class="form-check-label" for="usar_endereco_faturamento">Usar o mesmo endereço de faturamento como entrega.</label>
+        </div>
+
+        <div class="form-group">
+          <label for="cep_entrega">CEP:</label>
+          <input type="text" class="form-control" placeholder="Digite o cep" onblur="pesquisacep1(this.value)" id="cep_entrega" name="cep_entrega">
+        </div>
+        <div class="form-group">
+          <label for="logradouro_entrega">Logradouro:</label>
+          <input type="text" class="form-control" placeholder="Digite o logradouro" id="logradouro_entrega" name="logradouro_entrega">
+        </div>
+        <div class="form-group">
+          <label for="numero_entrega">Número:</label>
+          <input type="text" class="form-control" placeholder="Digite o número" id="numero_entrega" name="numero_entrega">
+        </div>
+        <div class="form-group">
+          <label for="complemento_entrega">Complemento:</label>
+          <input type="text" class="form-control" placeholder="Digite o complemento" id="complemento_entrega" name="complemento_entrega">
+        </div>
+        <div class="form-group">
+          <label for="bairro_entrega">Bairro:</label>
+          <input type="text" class="form-control" placeholder="Digite o bairro" id="bairro_entrega" name="bairro_entrega">
+        </div>
+        <div class="form-group">
+          <label for="cidade_entrega">Cidade:</label>
+          <input type="text" class="form-control" placeholder="Digite a cidade" id="cidade_entrega" name="cidade_entrega">
+        </div>
+        <div class="form-group">
+          <label for="estado_entrega">Estado:</label>
+          <input type="text" class="form-control" placeholder="Digite o estado" id="estado_entrega" name="estado_entrega">
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="form-group" style="margin-top: 1rem">
+        <label>Endereços adicionais:</label>
+        <ul class="list-group-flush" id="lista-enderecos" style="padding-left: 0px"></ul>
+      </div>
+      <div class="form-group" style="text-align: right">
+        <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">
+          Adicionar Endereço
+        </button>
+
+        <!-- The Modal -->
+        <div class="modal" id="myModal2">
+          <div class="modal-dialog">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">Adicionar Endereço</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <!-- Modal body -->
+              <div class="modal-body" style="text-align:left">
+                <div class="form-group">
+                  <label for="cep">CEP:</label>
+                  <input type="text" class="form-control" placeholder="Digite o cep" onblur="pesquisacep2(this.value)" id="cep">
+                </div>
+                <div class="form-group">
+                  <label for="logradouro">Logradouro:</label>
+                  <input type="text" class="form-control" placeholder="Digite o logradouro" id="logradouro">
+                </div>
+                <div class="form-group">
+                  <label for="numero">Número:</label>
+                  <input type="text" class="form-control" placeholder="Digite o número" id="numero">
+                </div>
+                <div class="form-group">
+                  <label for="complemento">Complemento:</label>
+                  <input type="text" class="form-control" placeholder="Digite o complemento" id="complemento">
+                </div>
+                <div class="form-group">
+                  <label for="bairro">Bairro:</label>
+                  <input type="text" class="form-control" placeholder="Digite o bairro" id="bairro">
+                </div>
+                <div class="form-group">
+                  <label for="cidade">Cidade:</label>
+                  <input type="text" class="form-control" placeholder="Digite a cidade" id="cidade">
+                </div>
+                <div class="form-group">
+                  <label for="estado">Estado:</label>
+                  <input type="text" class="form-control" placeholder="Digite o estado" id="estado">
+                </div>
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="addEndereco();">Adicionar</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="form-group">
+        <button type="button" id="cadastrar" class="btn btn-outline-success" onclick="validar();">Cadastrar</button>
+        <button class="btn btn-outline-info" type="reset" value="Reset" onclick="const myNode = document.getElementById('lista-enderecos');myNode.innerHTML = '';">Resetar</button>
+      </div>
+    </form>
+  </div>
+</main>
+<!-- Footer component start -->
+<footer class="footer mt-auto py-3" style="left: 0;bottom: 0;width: 100%;text-align: center;">
+  <div class="container">
+    <a class="navbar-brand navbar-light" href="#">BestPhones</a><br/>
+    <span class="text-muted">© 2023 Best Phones - Todos os direitos reservados.</span>
+  </div>
+</footer>
+<!-- Footer component end -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</body>
+</html>

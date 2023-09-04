@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <title>Login</title>
+  <style>
+    body {
+        font-family: 'Montserrat', sans-serif;
+        transition: 3s;
+    }
+
+    @media only screen and (min-width: 768px) {
+        .login-container {
+            margin-top: 10%;
+            border: 1px solid #CCD1D1;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            max-width: 50%;
+        }
+    }
+
+    .ads {
+        background-color: #17a2b8;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        color: #fff;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .ads h1 {
+        margin-top: 20%;
+    }
+
+    #fl {
+        font-weight: 600;
+    }
+
+    #sl {
+        font-weight: 100 !important;
+    }
+
+    .profile-img {
+        text-align: center;
+    }
+
+    .profile-img img {
+        border-radius: 50%;
+        /* animation: mymove 2s infinite; */
+    }
+
+    @keyframes mymove {
+        from {
+            border: 1px solid #F2F3F4;
+        }
+
+        to {
+            border: 8px solid #F2F3F4;
+        }
+    }
+
+    .login-form {
+        padding: 15px;
+    }
+
+    .login-form h3 {
+        text-align: center;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+
+    .form-control {
+        font-size: 14px;
+    }
+
+    .forget-password a {
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container login-container">
+  <div class="row">
+    <div class="col-sm-6 ads">
+      <h1><span id="fl">Best</span><span id="sl">Phones</span></h1>
+    </div>
+    <div class="col-sm-6 login-form">
+      <div class="profile-img">
+        <img style="background-color: #17a2b8"
+             src="https://i.imgur.com/dGo8DOk_d.webp?maxwidth=728&fidelity=grand" alt="profile_img"
+             height="140px" width="140px;">
+      </div>
+      <h3>Login</h3>
+      <form action="#" th:action="@{/Backoffice/Login}" th:method="post">
+        <div class="form-group">
+          <input type="text" class="form-control" th:field="${usuario.email}" name="email"
+                 placeholder="E-mail">
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" th:field="${usuario.senha}" name="senha"
+                 placeholder="Senha">
+        </div>
+        <div class="form-group">
+          <button type="submit" value="submit" class="btn btn-info btn-lg btn-block">Acessar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
