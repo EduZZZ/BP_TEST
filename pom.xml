@@ -10,10 +10,10 @@ http://maven.apache.org/POM/3.6.3 ">
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>br.com</groupId>
-  <artifactId>levegames</artifactId>
+  <artifactId>bestphones</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>levegames</name>
-  <description>Loja de jogos online com backoffice.</description>
+  <name>bestphones</name>
+  <description>E-commerce</description>
 
   <properties>
     <java.version>1.8</java.version>
