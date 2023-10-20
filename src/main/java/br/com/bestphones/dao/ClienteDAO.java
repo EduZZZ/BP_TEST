@@ -46,7 +46,7 @@ public class ClienteDAO {
         cliente.add(c);
       }
     } catch (SQLException ex) {
-      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }
@@ -64,27 +64,25 @@ public class ClienteDAO {
 
       stmt.executeUpdate();
     } catch (SQLException ex) {
-      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+
     } finally {
       ConexaoDB.fecharConexao(con, stmt);
     }
   }
-    
-    public void salvarCliente(Cliente c) {
+
+  public void salvarCliente(Cliente c) {
     Connection con = ConexaoDB.obterConexao();
     PreparedStatement stmt = null;
 
     try {
-      stmt = con.prepareStatement("insert into clientes (nome,cpf,telefone,email,senha) values ( ?, ?, ?, ?, ?);");
+      stmt = con.prepareStatement("INSERT INTO clientes (nome, cpf, telefone, email, senha, cep) VALUES (?, ?, ?, ?, ?, ?);");
 
       stmt.setString(1, c.getNome());
       stmt.setString(2, c.getCpf());
       stmt.setString(3, c.getTelefone());
       stmt.setString(4, c.getEmail());
       stmt.setString(5, c.getSenha());
-      
-     
-      
+      stmt.setString(6, c.getCep());
 
       stmt.executeUpdate();
     } catch (SQLException ex) {
@@ -92,9 +90,10 @@ public class ClienteDAO {
     } finally {
       ConexaoDB.fecharConexao(con, stmt);
     }
-    }
-    
-    public int getUltimoCliente() {
+  }
+
+
+  public int getUltimoCliente() {
     Connection con = ConexaoDB.obterConexao();
     PreparedStatement stmt = null;
     ResultSet rs = null;
@@ -138,7 +137,7 @@ public class ClienteDAO {
         
 
     } catch (SQLException ex) {
-      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }

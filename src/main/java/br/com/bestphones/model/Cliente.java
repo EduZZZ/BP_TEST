@@ -1,25 +1,27 @@
 package br.com.bestphones.model;
 
 public class Cliente {
-    
-    private int id;
-    private String nome;
-    private String cpf;
-    private String telefone;
-    private String email;
-    private String senha;
-    private boolean registro_deletado;
+
+  private int id;
+  private String nome;
+  private String cpf;
+  private String telefone;
+  private String email;
+  private String senha;
+  private String cep; // Novo campo
+  private boolean registro_deletado;
 
   public Cliente() {
   }
 
-  public Cliente(int id, String nome, String cpf, String telefone, String email, String senha, boolean registro_deletado) {
+  public Cliente(int id, String nome, String cpf, String telefone, String email, String senha, String cep, boolean registro_deletado) {
     this.id = id;
     this.nome = nome;
     this.cpf = cpf;
     this.telefone = telefone;
     this.email = email;
     this.senha = senha;
+    this.cep = cep;
     this.registro_deletado = registro_deletado;
   }
 
@@ -71,6 +73,14 @@ public class Cliente {
     this.senha = senha;
   }
 
+  public String getCep() {
+    return cep;
+  }
+
+  public void setCep(String cep) {
+    this.cep = cep;
+  }
+
   public boolean isRegistro_deletado() {
     return registro_deletado;
   }
@@ -81,7 +91,15 @@ public class Cliente {
 
   @Override
   public String toString() {
-    return "Cliente{" + "id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + ", email=" + email + ", senha=" + senha + ", registro_deletado=" + registro_deletado + '}';
+    return "Cliente{" +
+            "id=" + id +
+            ", nome='" + nome + '\'' +
+            ", cpf='" + cpf + '\'' +
+            ", telefone='" + telefone + '\'' +
+            ", email='" + email + '\'' +
+            ", senha='" + senha + '\'' +
+            ", cep='" + cep + '\'' + // Incluído o campo 'cep' na representação em string
+            ", registro_deletado=" + registro_deletado +
+            '}';
   }
-
 }

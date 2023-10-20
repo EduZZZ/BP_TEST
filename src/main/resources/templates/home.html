@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>BestPhones! Home</title>
+  <title>BestPhones - Início</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
         crossorigin="anonymous">
@@ -11,17 +11,68 @@
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
         crossorigin="anonymous">
   <link rel="stylesheet" href="style.css" type="text/css"/>
+  <style>
+    /* Adicione estilos personalizados aqui */
+    body {
+      background-color: #f8f8f8;
+      font-family: Arial, sans-serif;
+    }
+    .navbar {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-brand {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .nav-link {
+      font-size: 16px;
+      color: #333;
+    }
+    .jumbotron {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+    .container {
+      padding: 2rem;
+    }
+    .card {
+      background-color: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      text-align: center;
+    }
+    .btn-primary {
+      background-color: #007BFF;
+      border-color: #007BFF;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+    .footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
 </head>
-<body class="d-flex flex-column h-100">
-<nav class="navbar navbar-expand-md navbar-light bg-light">
-  <a class="navbar-brand" href="/Home">Best Phones</a>
+<body>
+<nav class="navbar navbar-expand-md navbar-light">
+  <a class="navbar-brand" href="/Home">BestPhones</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">HOME <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#">Início <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/Home?console=PS4">iPhone</a>
@@ -44,22 +95,16 @@
     </ul>
     <form class="form-inline mt-2 mt-md-0">
       <input class="form-control mr-sm-2" type="text" placeholder="Pesquisar por celular..." aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+      <button class="btn btn-primary my-2 my-sm-0" type="submit">Pesquisar</button>
     </form>
   </div>
-  <a class="btn btn-outline-primary mr-sm-2" href="/Carrinho">
-    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
-    </svg>
+  <a class="btn btn-primary mr-sm-2" href="/Carrinho">
+    <i class="fa fa-shopping-cart"></i> Carrinho
   </a>
-
   <div th:if="${session.cliente != null}">
     <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-        </svg>
-        Minha Conta
+        <i class="fa fa-user"></i> Minha Conta
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" href="/DadosPessoais">Alterar meus dados</a>
@@ -70,10 +115,7 @@
   </div>
   <div th:if="${session.cliente == null}">
     <a class="btn btn-outline-secondary" href="/Login">
-      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-      </svg>
-      Login
+      <i class="fa fa-user"></i> Login
     </a>
   </div>
 </nav>
@@ -81,42 +123,20 @@
 <main role="main">
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Best Phones</h1>
-      <p>Um e-commerce com os melhores smartphones existentes no mercado!</p>
+      <h1 class="display-3">Bem-vindo à BestPhones</h1>
+      <p>Descubra os melhores smartphones do mercado!</p>
     </div>
   </div>
 
-  <div class="container">
-    <div class="row">
-      <!-- Example row of columns -->
-      <div th:each="produto, index : ${produtos}" class="col-md-4 shadow p-3 mb-5 bg-white rounded" style="padding: 1rem">
-        <center>
-          <a th:href="@{'/produto/' + ${produto.id}}" th:text="${produto.nome}"></a>
-          <p th:text="${consoles[index.index].nome}"></p>
-          <img th:src="${imagens[index.index].url_imagem}" style="padding: 1rem; width: 100px">
-          <p style="padding-top: 1rem; font-size: 17px" th:text="'R$ ' + ${produto.preco}"></p>
-          <p>
-          <form action="#" th:action="@{/Carrinho/}" th:method="post">
-            <input name="produtoId" type="hidden" th:value="${produto.id}">
-            <button type="submit" class="btn btn-info" href="#" role="button">Comprar
-              <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
-              </svg>
-            </button>
-          </form>
-          </p>
-        </center>
-      </div>
-    </div>
-  </div>
+
 
   <hr>
 </main>
 
-<footer class="footer mt-auto py-3" style="position: relative;left: 0;bottom: 0;width: 100%;text-align: center;">
+<footer class="footer">
   <div class="container">
-    <a class="navbar-brand navbar-light" href="#">Best Phones</a><br/>
-    <span class="text-muted">© 2023 Best Phones - Todos os direitos reservados.</span>
+    <a class="navbar-brand" href="#">BestPhones</a><br/>
+    <span class="text-muted">© 2023 BestPhones - Todos os direitos reservados.</span>
   </div>
 </footer>
 

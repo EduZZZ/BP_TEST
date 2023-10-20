@@ -183,7 +183,7 @@ public class UsuarioDAO {
       u.setRegistro_deletado(rs.getBoolean("registro_deletado"));
 
     } catch (SQLException ex) {
-      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }

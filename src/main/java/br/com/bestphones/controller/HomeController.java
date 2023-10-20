@@ -1,10 +1,6 @@
 package br.com.bestphones.controller;
 
-import br.com.bestphones.dao.ConsoleDAO;
-import br.com.bestphones.dao.ImagemProdutoDAO;
-import br.com.bestphones.dao.ProdutoDAO;
-import br.com.bestphones.model.Console;
-import br.com.bestphones.model.ImagemProduto;
+
 import br.com.bestphones.model.Produto;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -18,16 +14,8 @@ public class HomeController {
   public ModelAndView exibirHome() {
     ModelAndView mv = new ModelAndView("home");
     
-    ProdutoDAO produtoDao = new ProdutoDAO();
-    ImagemProdutoDAO imagemProdutoDao = new ImagemProdutoDAO();
-    ConsoleDAO consoleDao = new ConsoleDAO();
-    List<Produto> produtos = produtoDao.getProdutos();
-    List<ImagemProduto> imagens = imagemProdutoDao.getFirstImagensProduto();
-    List<Console> consoles = consoleDao.getConsolesOrdenado();
-        
-    mv.addObject("produtos", produtos);
-    mv.addObject("imagens", imagens);
-    mv.addObject("consoles", consoles);
+
+
 
     return mv;
   }

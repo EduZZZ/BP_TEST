@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import br.com.bestphones.model.Endereco;
-import br.com.bestphones.model.PerguntaRespostaProduto;
+
 import br.com.bestphones.utils.ConexaoDB;
 
 public class EnderecoDAO {
@@ -30,32 +30,7 @@ public class EnderecoDAO {
     }
   }
 
-  public List<PerguntaRespostaProduto> getPerguntasRespostasProduto(int produto_id) {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
 
-    List<PerguntaRespostaProduto> listaPerguntasRespostas = new ArrayList<>();
-
-    try {
-      stmt = con.prepareStatement("SELECT * FROM perguntas_respostas_produto where produto_id = " + produto_id);
-      rs = stmt.executeQuery();
-
-      while (rs.next()) {
-        PerguntaRespostaProduto pr = new PerguntaRespostaProduto();
-        pr.setId(rs.getInt("id"));
-        pr.setProduto_id(produto_id);
-        pr.setPergunta(rs.getString("pergunta"));
-        pr.setResposta(rs.getString("resposta"));
-        listaPerguntasRespostas.add(pr);
-      }
-    } catch (SQLException ex) {
-      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
-    }
-    return listaPerguntasRespostas;
-  }
 
   public void deletarPerguntasRespostasProduto(int produto_id) {
     Connection con = ConexaoDB.obterConexao();
@@ -67,7 +42,7 @@ public class EnderecoDAO {
       stmt.setInt(1, produto_id);
       stmt.executeUpdate();
     } catch (SQLException ex) {
-      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }
@@ -97,7 +72,7 @@ public class EnderecoDAO {
       e.setEstado(rs.getString("estado"));
       e.setIs_faturamento(true);
     } catch (SQLException ex) {
-      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }
@@ -127,7 +102,7 @@ public class EnderecoDAO {
       e.setEstado(rs.getString("estado"));
       e.setIs_faturamento(false);
     } catch (SQLException ex) {
-      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }
@@ -157,7 +132,7 @@ public class EnderecoDAO {
       e.setEstado(rs.getString("estado"));
       e.setIs_faturamento(false);
     } catch (SQLException ex) {
-      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }
@@ -190,7 +165,7 @@ public class EnderecoDAO {
         listaEnderecos.add(e);
       }
     } catch (SQLException ex) {
-      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }
