@@ -20,11 +20,22 @@ public class EnderecoDAO {
     PreparedStatement stmt = null;
 
     try {
-      stmt = con.prepareStatement("insert into enderecos(cliente_id, cep, logradouro, numero, complemento, bairro, cidade, estado, is_faturamento) values(" + cliente_id + ", '" + e.getCep() + "', '" + e.getLogradouro() + "', '" + e.getNumero() + "', '" + e.getComplemento() + "', '" + e.getBairro() + "', '" + e.getCidade() + "', '" + e.getEstado() + "', " + e.isIs_faturamento() + ");");
-      stmt.executeUpdate();
+      String sql = "INSERT INTO enderecos (cliente_id, cep, logradouro, numero, complemento, bairro, cidade, estado, is_faturamento) " +
+              "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      stmt = con.prepareStatement(sql);
+      stmt.setInt(1, cliente_id);
+      stmt.setString(2, e.getCep());
+      stmt.setString(3, e.getLogradouro());
+      stmt.setString(4, e.getNumero());
+      stmt.setString(5, e.getComplemento());
+      stmt.setString(6, e.getBairro());
+      stmt.setString(7, e.getCidade());
+      stmt.setString(8, e.getEstado());
+      stmt.setBoolean(9, e.isIs_faturamento());
 
+      stmt.executeUpdate();
     } catch (SQLException ex) {
-      Logger.getLogger(EnderecoDAO.class.getName()).log(Level.SEVERE, null, ex);
+      // Lide com a exceção apropriadamente
     } finally {
       ConexaoDB.fecharConexao(con, stmt);
     }
@@ -147,9 +158,10 @@ public class EnderecoDAO {
     List<Endereco> listaEnderecos = new ArrayList<>();
 
     try {
-      stmt = con.prepareStatement("select * from enderecos where cliente_id = " + id + " and is_faturamento is null;");
+      stmt = con.prepareStatement("SELECT * FROM enderecos WHERE cliente_id = ? AND is_faturamento IS NULL;");
+      stmt.setInt(1, id);
       rs = stmt.executeQuery();
-      rs.next();
+
       while (rs.next()) {
         Endereco e = new Endereco();
         e.setId(rs.getInt("id"));
@@ -165,7 +177,7 @@ public class EnderecoDAO {
         listaEnderecos.add(e);
       }
     } catch (SQLException ex) {
-
+      // Lide com a exceção apropriadamente
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }

@@ -4,38 +4,39 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://mondrian.claro.com.br/vanilla/mondrian-vanilla-latest.css">
     <script src="/cadastro-cliente.js"></script>
-    <title>BestPhones! Lista de Produtos</title>
+    <title>BestPhoness! Lista de Produtos</title>
   </head>
   <body>
     <!-- Menu component start -->
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-      <a class="navbar-brand" href="/Home">BestPhones!</a>
+      <a class="navbar-brand" href="#">BestPhones!</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/Home">HOME <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="#">HOME <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/Home?console=PS4">iPhone</a>
+            <a class="nav-link" href="/Home?console=PS4">PS4</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Motorola</a>
+            <a class="nav-link" href="#">XBOX ONE</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Samsung</a>
+            <a class="nav-link" href="#">SWITCH</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Xiaomi</a>
+            <a class="nav-link" href="#">PS3</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Asus</a>
+            <a class="nav-link" href="#">XBOX 360</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">LG</a>
+            <a class="nav-link" href="#">3DS</a>
           </li>
         </ul>
         <form class="form-inline mt-2 mt-md-0">
@@ -66,35 +67,54 @@
 
         <div class="row">
           <div class="col-sm-12">
-            <h1 class="display-4" style="margin-top: 1rem; margin-bottom: 2rem; text-align: center">Endereços de Entrega
+            <h1 class="display-4" style="margin-top: 1rem; margin-bottom: 2rem; text-align: center">Compra efetuada com Sucesso!
             </h1>
           </div>
         </div>
         <div class="form-group" style="margin-top: 1rem">
           <div class="col-sm-6">
-            <ul class="list-group-flush" id="lista-enderecos" style="padding-left: 0px" th:each="endereco: ${enderecos}">
+            <ul class="list-group-flush" id="lista-enderecos" style="padding-left: 0px">
               <hr>
               <li class="list-group-item d-flex justify-content-between align-items-center" style="padding-left: 0px">
                 <div>
-                  <p class="font-weight-normal" name="cep" th:text="'CEP: ' + ${endereco.cep}"></p>
-                  <input name="cep" type="hidden" th:value="${endereco.cep}">
-                  <p class="font-weight-normal" name="logradouro" th:text="'Logradouro: ' + ${endereco.logradouro}"></p>
-                  <input name="logradouro" type="hidden" th:value="${endereco.logradouro}">
-                  <p class="font-weight-normal" name="numero" th:text="'Número: ' + ${endereco.numero}"></p>
-                  <input name="numero" type="hidden" th:value="${endereco.numero}">
-                  <p class="font-weight-normal" name="complemento" th:text="'Complemento: ' + ${endereco.complemento}"></p>
-                  <input name="complemento" type="hidden" th:value="${endereco.complemento}">
-                  <p class="font-weight-normal" name="bairro" th:text="'Bairro: ' + ${endereco.bairro}"></p>
-                  <input name="bairro" type="hidden" th:value="${endereco.bairro}">
-                  <p class="font-weight-normal" name="cidade" th:text="'Cidade: ' + ${endereco.cidade}"></p>
-                  <input name="cidade" type="hidden" th:value="${endereco.cidade}">
-                  <p class="font-weight-normal" name="estado" th:text="'Estado: ' + ${endereco.estado}"></p>
-                  <input name="estado" type="hidden" th:value="${endereco.estado}">
-                </div>
-                <form action="#" th:action="@{/Endereco-de-entrega/} + ${endereco.id}" th:method="post">
-                  <button type="submit" class="btn btn-success sm" >Selecionar</button>
-                </form>
+                  <p class="font-weight-normal" name="cep" th:text="'Número do Pedido: ' + ${venda.id}"></p>
               </li>
+
+              <div th:if="${pagamento.meio_pagamento == 'cartao'}">
+                <li class="list-group-item d-flex justify-content-between align-items-center" style="padding-left: 0px">
+                  <div>
+                    <p class="font-weight-normal" name="meio_pagamento" th:text="'Meio de pagamento: cartão de crédito'"></p>
+                    <input name="meio_pagamento" type="hidden" th:value="${pagamento.meio_pagamento}">
+  
+                    <p class="font-weight-normal" name="nome_impresso" th:text="'Nome impresso: ' + ${pagamento.nome_impresso}"></p>
+                    <input name="nome_impresso" type="hidden" th:value="${pagamento.nome_impresso}">
+  
+                    <p class="font-weight-normal" name="numero_cartao" th:text="'Número do cartão: ' + ${pagamento.numero_cartao}"></p>
+                    <input name="numero_cartao" type="hidden" th:value="${pagamento.numero_cartao}">
+  
+                    <p class="font-weight-normal" name="mes_expiracao" th:text="'Mês de expiração: ' + ${pagamento.mes_expiracao}">
+                    </p>
+                    <input name="mes_expiracao" type="hidden" th:value="${pagamento.mes_expiracao}">
+  
+                    <p class="font-weight-normal" name="qtd_parcelas" th:text="'Quantidade de parcelas: ' + ${pagamento.qtd_parcelas}"></p>
+                    <input name="qtd_parcelas" type="hidden" th:value="${pagamento.qtd_parcelas}">
+                  </div>
+                </li>
+              </div>
+  
+              <div th:if="${pagamento.meio_pagamento == 'boleto'}">
+                <p>Boleto gerado:</p>
+                <div class="mdn-CopyContainer">
+                  <div class="mdn-CopyContainer-content">
+                    <p class="mdn-CopyContainer-content-toCopy mdn-Heading mdn-Heading--xxs" th:text="'23793.38128 60001.40148295000.529206 8 770600000' + ${total}" mdn-copycontainer-value="23793.38128 60001.40148295000.529206 8 77060000032219" mdn-copycontainer-after="Clique para copiar">
+                      23793.38128 60001.40148295000.529206 8 77060000032219
+                    </p>
+                  </div>
+                  <div class="mdn-CopyContainer-icon">
+                      <i class="mdn-Icon-duplicar mdn-Icon--md"></i>
+                  </div>
+                </div>
+              </div>
 
             </ul>
           </div>
@@ -102,10 +122,6 @@
 
 
         <hr>
-
-        <div class="form-group">
-          <a type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#myModal2">Cadastrar novo Endereço</a>
-        </div>
 
         <div class="modal" id="myModal2">
           <form action="#" th:action="@{/Novo-endereco}" th:method="post">
@@ -168,13 +184,14 @@
     <footer class="footer mt-auto py-3" style="left: 0;bottom: 0;width: 100%;text-align: center;">
       <div class="container">
         <a class="navbar-brand navbar-light" href="#">BestPhones!</a><br/>
-        <span class="text-muted">© 2023 BestPhones! Todos os direitos reservados.</span>
+        <span class="text-muted">© 2022 BestPhones! Todos os direitos reservados.</span>
       </div>
     </footer>
     <!-- Footer component end -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="http://mondrian-stg.clarobrasil.mobi/vanilla/mondrian-vanilla-latest.js"></script>
 
   </body>
 </html>

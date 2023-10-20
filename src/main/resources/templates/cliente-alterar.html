@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alterar Dados do Cliente</title>
+</head>
+<body>
+<h1>Alterar Dados do Cliente</h1>
+<form action="/DadosPessoais" method="post" th:object="${cliente}" th:action="@{/DadosPessoais}">
+    <input type="hidden" th:field="*{id}"/>
+
+    <div>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" th:field="*{nome}"/>
+    </div>
+
+    <div>
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" th:field="*{cpf}" readonly="readonly"/>
+    </div>
+
+    <div>
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" th:field="*{telefone}"/>
+    </div>
+
+    <div>
+        <label for="email">Email:</label>
+        <input type="text" id="email" th:field="*{email}" readonly="readonly"/>
+    </div>
+
+    <div>
+        <label for="senha">Nova Senha:</label>
+        <input type="password" id="senha" th:field="*{senha}"/>
+    </div>
+
+    <div>
+        <label for="cep">CEP:</label>
+        <a href="/Endereco-de-entrega" th:href="@{/Endereco-de-entrega}">
+            <input type="text" id="cep" th:field="*{cep}"/>
+        </a>
+    </div>
+
+
+    <!-- Adicione campos para os endereços de faturamento e entrega, semelhantes ao exemplo anterior. -->
+
+    <div>
+        <input type="submit" value="Salvar Alterações"/>
+    </div>
+</form>
+</body>
+</html>
