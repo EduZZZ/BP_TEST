@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script src="/cadastro-produto.js"></script>
-    <title>Leve Games! Lista de Produtos</title>
+    <title>Best Phones! Lista de Produtos</title>
   </head>
   <body>
     <!-- Menu component start -->
@@ -13,7 +13,7 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="#">Leve Games!</a>
+      <a class="navbar-brand" href="#">Best Phones!</a>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item">
@@ -23,7 +23,7 @@
             <a class="nav-link" href="/Backoffice/Produtos">PRODUTOS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">CONSOLES</a>
+            <a class="nav-link" href="#">CELULARES</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">CLIENTES</a>
@@ -75,11 +75,11 @@
           </div>
           <div class="form-group">
             <label for="select">Selecione o Console:</label>
-            <select class="form-control w-50" th:field="*{console_id}" id="console_id">
+            <select class="form-control w-50" th:field="*{celulares_id}" id="celulares_id">
               <option value="-1"> -- </option>
-              <option th:each="console : ${consoles}"
-                      th:value="${console.id}"
-                      th:utext="${console.nome}"/>
+              <option th:each="celulares : ${celulares}"
+                      th:value="${celulares.id}"
+                      th:utext="${celulares.nome}"/>
             </select>
           </div>
 
@@ -183,8 +183,8 @@
     <!-- Footer component start -->
     <footer class="footer mt-auto py-3" style="left: 0;bottom: 0;width: 100%;text-align: center;">
       <div class="container">
-        <a class="navbar-brand navbar-light" href="#">Leve Games!</a><br/>
-        <span class="text-muted">© 2020 Leve Games! Todos os direitos reservados.</span>
+        <a class="navbar-brand navbar-light" href="#">Best Phones!</a><br/>
+        <span class="text-muted">© 2020 Best Phones! Todos os direitos reservados.</span>
       </div>
     </footer>
     <!-- Footer component end -->

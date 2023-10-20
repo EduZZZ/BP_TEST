@@ -209,7 +209,7 @@ function pesquisacep(valor) {
       //Insere script no documento e carrega o conteúdo.
       document.body.appendChild(script);
 
-      console.log(script)
+      celulares.log(script)
 
     } //end if.
     else {
@@ -275,7 +275,7 @@ function pesquisacep1(valor) {
       //Insere script no documento e carrega o conteúdo.
       document.body.appendChild(script);
 
-      console.log(script)
+      celulares.log(script)
 
     } //end if.
     else {
@@ -320,7 +320,7 @@ function pesquisacep2(valor) {
       //Insere script no documento e carrega o conteúdo.
       document.body.appendChild(script);
 
-      console.log(script)
+      celulares.log(script)
 
     } //end if.
     else {

@@ -1,0 +1,50 @@
+
+    /* Adicione estilos personalizados aqui */
+    body {
+      background-color: #f8f8f8;
+      font-family: Arial, sans-serif;
+    }
+    .navbar {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-brand {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .nav-link {
+      font-size: 16px;
+      color: #333;
+    }
+    .jumbotron {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+    .container {
+      padding: 2rem;
+    }
+    .card {
+      background-color: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      text-align: center;
+    }
+    .btn-primary {
+      background-color: #007BFF;
+      border-color: #007BFF;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+    .footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+    }

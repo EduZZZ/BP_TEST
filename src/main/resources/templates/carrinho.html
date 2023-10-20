@@ -8,10 +8,10 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
-          id="bootstrap-css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
     <title>Lista de Produtos</title>
     <style>
       /* Show navbar not fixed to the top */
@@ -150,7 +150,7 @@
             <a class="nav-link" href="/Home">HOME <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/Home?console=PS4">Iphone</a>
+            <a class="nav-link" href="/Home?celulares=PS4">Iphone</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Motorola</a>
@@ -259,12 +259,12 @@
           </div>
           <hr>
           <form class="form-inline" action="#" th:action="@{/Carrinho/Cep}" th:method="post">
-            
+
             <div class="form-group mx-sm-3 mb-2">
               <label for="inputPassword2" class="sr-only">CEP</label>
               <input type="text" name="cep" class="form-control" id="cep" th:value="${cep}" placeholder="Digite seu CEP">
             </div>
-            
+
             <button type="submit" class="btn btn-primary mb-2">Consultar</button>
           </form>
 
@@ -281,6 +281,7 @@
             </div>
           </div>
         </div>
+      </div>
     </main>
 
     <footer class="footer mt-auto py-3" style="position: relative;left: 0;bottom: 0;width: 100%;text-align: center;">
@@ -307,7 +308,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
             integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
     crossorigin="anonymous"></script>
-    <script src="carrinho.js"></script>
+
 
 
   </body>

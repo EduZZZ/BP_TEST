@@ -66,7 +66,7 @@
           <a class="nav-link" href="home.html">HOME <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/Home?console=PS4">PS4</a>
+          <a class="nav-link" href="/Home?celulares=PS4">PS4</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">XBOX ONE</a>
@@ -110,7 +110,7 @@
         </div>
         <div class="col-sm-6" style="width: 100%;">
           <p style="font-size: 2rem; margin-left:auto; margin-right: auto;" th:text="${produto.nome}">Zelda Breath of The Wild</p>
-          <p class="font-weight-ligth" th:text="${console.nome}">SWITCH</p>
+          <p class="font-weight-ligth" th:text="${celulares.nome}">SWITCH</p>
           <p class="font-weight-ligth" th:text="'R$ ' + ${produto.preco}">R$ 350,00</p>
           
           <form action="#" th:action="@{/Carrinho/}" th:method="post">
@@ -165,7 +165,7 @@
     <footer class="footer mt-auto py-3" style="position: relative;left: 0;bottom: 0;width: 100%;text-align: center;">
       <div class="container">
         <a class="navbar-brand navbar-light" href="#">BestPhones!</a><br/>
-        <span class="text-muted">© 2022 BestPhones! Todos os direitos reservados.</span>
+        <span class="text-muted">© 2023 BestPhones! Todos os direitos reservados.</span>
       </div>
     </footer>
 

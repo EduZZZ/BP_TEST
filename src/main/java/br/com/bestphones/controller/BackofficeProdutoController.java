@@ -39,12 +39,12 @@ public class BackofficeProdutoController {
 
     Produto p = new Produto();
 
-    ConsoleDAO consoleDao = new ConsoleDAO();
-    List<Console> consoles = consoleDao.getConsoles();
+    ConsoleDAO celularesDao = new ConsoleDAO();
+    List<Console> celulares = celularesDao.getcelulares();
 
     ModelAndView mv = new ModelAndView("backoffice-produtos-novo");
 
-    mv.addObject("consoles", consoles);
+    mv.addObject("celulares", celulares);
     mv.addObject("produto", p);
 
     return mv;
@@ -57,8 +57,8 @@ public class BackofficeProdutoController {
     ProdutoDAO produtoDao = new ProdutoDAO();
     Produto p = produtoDao.getProdutos(id);
 
-    ConsoleDAO consoleDao = new ConsoleDAO();
-    List<Console> consoles = consoleDao.getConsoles();
+    ConsoleDAO celularesDao = new ConsoleDAO();
+    List<Console> celulares = celularesDao.getcelulares();
 
     ImagemProdutoDAO imagensProdutoDAO = new ImagemProdutoDAO();
     List<ImagemProduto> listaImagens = imagensProdutoDAO.getImagensProduto(id);
@@ -69,7 +69,7 @@ public class BackofficeProdutoController {
     mv.addObject("produto", p);
     mv.addObject("listaImagens", listaImagens);
     mv.addObject("listaPerguntasRespostas", listaPerguntasRespostas);
-    mv.addObject("consoles", consoles);
+    mv.addObject("celulares", celulares);
 
     return mv;
   }
@@ -81,8 +81,8 @@ public class BackofficeProdutoController {
     ProdutoDAO produtoDao = new ProdutoDAO();
     Produto p = produtoDao.getProdutos(id);
 
-    ConsoleDAO consoleDao = new ConsoleDAO();
-    Console console = consoleDao.getConsolePorId(p.getConsole_id());
+    ConsoleDAO celularesDao = new ConsoleDAO();
+    Console celulares = celularesDao.getConsolePorId(p.getConsole_id());
 
     ImagemProdutoDAO imagensProdutoDAO = new ImagemProdutoDAO();
     List<ImagemProduto> listaImagens = imagensProdutoDAO.getImagensProduto(id);
@@ -93,7 +93,7 @@ public class BackofficeProdutoController {
     mv.addObject("produto", p);
     mv.addObject("listaImagens", listaImagens);
     mv.addObject("listaPerguntasRespostas", listaPerguntasRespostas);
-    mv.addObject("console", console);
+    mv.addObject("celulares", celulares);
 
     return mv;
   }

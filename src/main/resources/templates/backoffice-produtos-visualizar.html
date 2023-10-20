@@ -4,8 +4,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <script src="/cadastro-produto.js"></script>
-    <title>Leve Games! Lista de Produtos</title>
+    <script th:src="@{/cadastro-produto.js}"></script>
+    <title>Best Phones! Lista de Produtos</title>
     <style>
       /* Show navbar not fixed to the top */
       /*
@@ -51,7 +51,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" href="#">Leve Games!</a>
+        <a class="navbar-brand" href="#">Best Phones!</a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item">
             <a class="nav-link" href="#">PS4 <span class="sr-only">(current)</span></a>
@@ -124,8 +124,7 @@
         </div>
         
         <div class="form-group" style="margin-top: 2rem">
-            <ul class="list-group-flush" id="lista-pr" th:if="${#lists.isEmpty(listaPerguntasRespostas)}"></ul>
-            <ul class="list-group-flush" id="lista-pr" style="padding-left: 0px" th:each="perguntaResposta: ${listaPerguntasRespostas}">
+
               <li class="list-group-item d-flex justify-content-between align-items-center" style="padding-left: 0px">
                 <div>
                   <p class="font-weight-normal" name="pergunta" th:text="'Pergunta: ' + ${perguntaResposta.pergunta}">Pergunta: Esse produto vem com todas as dlcs?</p>
@@ -147,8 +146,8 @@
 
 <footer class="footer mt-auto py-3" style="position: relative;left: 0;bottom: 0;width: 100%;text-align: center;">
       <div class="container">
-        <a class="navbar-brand navbar-light" href="#">Leve Games!</a><br/>
-        <span class="text-muted">© 2020 Leve Games! Todos os direitos reservados.</span>
+        <a class="navbar-brand navbar-light" href="#">Best Phones!</a><br/>
+        <span class="text-muted">© 2023 Best Phones! Todos os direitos reservados.</span>
       </div>
     </footer>
 

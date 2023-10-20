@@ -5,18 +5,18 @@ public class ProdutoCarrinho {
   private int id;
   private String url_imagem;
   private String nome;
-  private String console;
+  private String celulares;
   private double preco;
   private int qtde;
 
   public ProdutoCarrinho() {
   }
 
-  public ProdutoCarrinho(int id, String url_imagem, String nome, String console, double preco, int qtde) {
+  public ProdutoCarrinho(int id, String url_imagem, String nome, String celulares, double preco, int qtde) {
     this.id = id;
     this.url_imagem = url_imagem;
     this.nome = nome;
-    this.console = console;
+    this.celulares = celulares;
     this.preco = preco;
     this.qtde = qtde;
   }
@@ -46,11 +46,11 @@ public class ProdutoCarrinho {
   }
 
   public String getConsole() {
-    return console;
+    return celulares;
   }
 
-  public void setConsole(String console) {
-    this.console = console;
+  public void setConsole(String celulares) {
+    this.celulares = celulares;
   }
 
   public double getPreco() {

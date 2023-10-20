@@ -34,7 +34,7 @@ public class ProdutoDAO {
         p.setPreco(rs.getFloat("preco"));
         p.setQtde(rs.getInt("qtde"));
         p.setDisponivel_venda(rs.getBoolean("disponivel_venda"));
-        p.setConsole_id(rs.getInt("console_id"));
+        p.setConsole_id(rs.getInt("celulares_id"));
         produtos.add(p);
       }
     } catch (SQLException ex) {
@@ -67,7 +67,7 @@ public class ProdutoDAO {
     PreparedStatement stmt = null;
 
     try {
-      stmt = con.prepareStatement("insert into produtos (nome,descricao_curta,descricao_detalhada,preco,qtde,disponivel_venda,console_id, registro_deletado) values ( ?, ?, ?, ?, ?, ?, ?, false);");
+      stmt = con.prepareStatement("insert into produtos (nome,descricao_curta,descricao_detalhada,preco,qtde,disponivel_venda,celulares_id, registro_deletado) values ( ?, ?, ?, ?, ?, ?, ?, false);");
 
       stmt.setString(1, p.getNome());
       stmt.setString(2, p.getDescricao_curta());
@@ -126,7 +126,7 @@ public class ProdutoDAO {
       p.setPreco(rs.getFloat("preco"));
       p.setQtde(rs.getInt("qtde"));
       p.setDisponivel_venda(rs.getBoolean("disponivel_venda"));
-      p.setConsole_id(rs.getInt("console_id"));
+      p.setConsole_id(rs.getInt("celulares_id"));
 
     } catch (SQLException ex) {
       Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,7 +141,7 @@ public class ProdutoDAO {
     PreparedStatement stmt = null;
 
     try {
-      stmt = con.prepareStatement("update produtos set nome = ?, descricao_curta = ?, descricao_detalhada = ?, preco = ?, qtde = ?, disponivel_venda = ?, console_id = ? where id = ?;");
+      stmt = con.prepareStatement("update produtos set nome = ?, descricao_curta = ?, descricao_detalhada = ?, preco = ?, qtde = ?, disponivel_venda = ?, celulares_id = ? where id = ?;");
 
       stmt.setString(1, p.getNome());
       stmt.setString(2, p.getDescricao_curta());
