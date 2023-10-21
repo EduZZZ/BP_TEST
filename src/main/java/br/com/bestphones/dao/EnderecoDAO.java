@@ -1,5 +1,6 @@
 package br.com.bestphones.dao;
 
+import org.springframework.stereotype.Repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,19 +11,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import br.com.bestphones.model.Endereco;
-
 import br.com.bestphones.utils.ConexaoDB;
 
+@Repository
 public class EnderecoDAO {
 
   public void salvarEnderecoCliente(int cliente_id, Endereco e) {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
+    String sql = "INSERT INTO enderecos (cliente_id, cep, logradouro, numero, complemento, bairro, cidade, estado, is_faturamento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    try {
-      String sql = "INSERT INTO enderecos (cliente_id, cep, logradouro, numero, complemento, bairro, cidade, estado, is_faturamento) " +
-              "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      stmt = con.prepareStatement(sql);
+    try (Connection con = ConexaoDB.obterConexao();
+         PreparedStatement stmt = con.prepareStatement(sql)) {
+
       stmt.setInt(1, cliente_id);
       stmt.setString(2, e.getCep());
       stmt.setString(3, e.getLogradouro());
@@ -35,12 +34,9 @@ public class EnderecoDAO {
 
       stmt.executeUpdate();
     } catch (SQLException ex) {
-      // Lide com a exceção apropriadamente
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt);
+      throw new RuntimeException("Erro ao salvar o endereço no banco de dados", ex);
     }
   }
-
 
 
   public void deletarPerguntasRespostasProduto(int produto_id) {
@@ -60,128 +56,88 @@ public class EnderecoDAO {
   }
 
   public Endereco getEnderecoFaturamento(int id) {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    Endereco e = new Endereco();
+    String sql = "SELECT * FROM enderecos WHERE cliente_id = ? AND is_faturamento = true;";
+    try (Connection con = ConexaoDB.obterConexao();
+         PreparedStatement stmt = con.prepareStatement(sql)) {
 
-    try {
-      stmt = con.prepareStatement("select * from enderecos where cliente_id = " + id + " and is_faturamento = true;");
-      rs = stmt.executeQuery();
-
-      rs.next();
-
-      e.setId(rs.getInt("id"));
-      e.setCliente_id(id);
-      e.setCep(rs.getString("cep"));
-      e.setLogradouro(rs.getString("logradouro"));
-      e.setNumero(rs.getString("numero"));
-      e.setComplemento(rs.getString("complemento"));
-      e.setBairro(rs.getString("bairro"));
-      
-      e.setCidade(rs.getString("cidade"));
-      e.setEstado(rs.getString("estado"));
-      e.setIs_faturamento(true);
+      stmt.setInt(1, id);
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
+          return extractEnderecoFromResultSet(rs);
+        }
+      }
     } catch (SQLException ex) {
-
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
+      Logger.getLogger(EnderecoDAO.class.getName()).log(Level.SEVERE, null, ex);
     }
-    return e;
+    return null;
   }
 
   public Endereco getEnderecoEntrega(int id) {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    Endereco e = new Endereco();
+    String sql = "SELECT * FROM enderecos WHERE cliente_id = ? AND is_faturamento = false;";
+    try (Connection con = ConexaoDB.obterConexao();
+         PreparedStatement stmt = con.prepareStatement(sql)) {
 
-    try {
-      stmt = con.prepareStatement("select * from enderecos where cliente_id = " + id + " and is_faturamento = false;");
-      rs = stmt.executeQuery();
-
-      rs.next();
-
-      e.setId(rs.getInt("id"));
-      e.setCliente_id(id);
-      e.setCep(rs.getString("cep"));
-      e.setLogradouro(rs.getString("logradouro"));
-      e.setNumero(rs.getString("numero"));
-      e.setComplemento(rs.getString("complemento"));
-      e.setBairro(rs.getString("bairro"));
-      e.setCidade(rs.getString("cidade"));
-      e.setEstado(rs.getString("estado"));
-      e.setIs_faturamento(false);
+      stmt.setInt(1, id);
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
+          return extractEnderecoFromResultSet(rs);
+        }
+      }
     } catch (SQLException ex) {
-
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
+      Logger.getLogger(EnderecoDAO.class.getName()).log(Level.SEVERE, null, ex);
     }
-    return e;
+    return null;
   }
-  
+
   public Endereco getEnderecoEntregaPagamento(int id) {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    Endereco e = new Endereco();
+    String sql = "SELECT * FROM enderecos WHERE id = ? AND is_faturamento IS NULL;";
+    try (Connection con = ConexaoDB.obterConexao();
+         PreparedStatement stmt = con.prepareStatement(sql)) {
 
-    try {
-      stmt = con.prepareStatement("select * from enderecos where id = " + id + " and is_faturamento is null;");
-      rs = stmt.executeQuery();
-
-      rs.next();
-
-      e.setId(rs.getInt("id"));
-      e.setCliente_id(id);
-      e.setCep(rs.getString("cep"));
-      e.setLogradouro(rs.getString("logradouro"));
-      e.setNumero(rs.getString("numero"));
-      e.setComplemento(rs.getString("complemento"));
-      e.setBairro(rs.getString("bairro"));
-      e.setCidade(rs.getString("cidade"));
-      e.setEstado(rs.getString("estado"));
-      e.setIs_faturamento(false);
+      stmt.setInt(1, id);
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
+          return extractEnderecoFromResultSet(rs);
+        }
+      }
     } catch (SQLException ex) {
-
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
+      Logger.getLogger(EnderecoDAO.class.getName()).log(Level.SEVERE, null, ex);
     }
-    return e;
+    return null;
   }
 
   public List<Endereco> getEnderecos(int id) {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-
     List<Endereco> listaEnderecos = new ArrayList<>();
+    String sql = "SELECT * FROM enderecos WHERE cliente_id = ? AND is_faturamento = false;";
 
-    try {
-      stmt = con.prepareStatement("SELECT * FROM enderecos WHERE cliente_id = ? AND is_faturamento IS NULL;");
+    try (Connection con = ConexaoDB.obterConexao();
+         PreparedStatement stmt = con.prepareStatement(sql)) {
+
       stmt.setInt(1, id);
-      rs = stmt.executeQuery();
-
-      while (rs.next()) {
-        Endereco e = new Endereco();
-        e.setId(rs.getInt("id"));
-        e.setCliente_id(id);
-        e.setCep(rs.getString("cep"));
-        e.setLogradouro(rs.getString("logradouro"));
-        e.setNumero(rs.getString("numero"));
-        e.setComplemento(rs.getString("complemento"));
-        e.setBairro(rs.getString("bairro"));
-        e.setCidade(rs.getString("cidade"));
-        e.setEstado(rs.getString("estado"));
-        e.setIs_faturamento(false);
-        listaEnderecos.add(e);
+      try (ResultSet rs = stmt.executeQuery()) {
+        while (rs.next()) {
+          listaEnderecos.add(extractEnderecoFromResultSet(rs));
+        }
       }
     } catch (SQLException ex) {
-      // Lide com a exceção apropriadamente
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
+      throw new RuntimeException("Erro ao obter endereços do banco de dados", ex);
     }
     return listaEnderecos;
+  }
+
+  private Endereco extractEnderecoFromResultSet(ResultSet rs) throws SQLException {
+    Endereco e = new Endereco();
+    e.setId(rs.getInt("id"));
+    e.setCliente_id(rs.getInt("cliente_id"));
+    e.setCep(rs.getString("cep"));
+    e.setLogradouro(rs.getString("logradouro"));
+    e.setNumero(rs.getString("numero"));
+    e.setComplemento(rs.getString("complemento"));
+    e.setBairro(rs.getString("bairro"));
+    e.setCidade(rs.getString("cidade"));
+    e.setEstado(rs.getString("estado"));
+    e.setIs_faturamento(rs.getBoolean("is_faturamento"));
+    return e;
   }
 
   public void removeEnderecos(int id) {

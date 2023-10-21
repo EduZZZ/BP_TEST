@@ -7,6 +7,8 @@ package br.com.bestphones.dao;
 
 import br.com.bestphones.model.Cliente;
 import br.com.bestphones.utils.ConexaoDB;
+import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,19 +18,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author victoria.sousa
- */
+@Repository
 public class ClienteDAO {
-    
-    public List<Cliente> getCliente() {
+
+  public List<Cliente> getClientes() {
 
     Connection con = ConexaoDB.obterConexao();
     PreparedStatement stmt = null;
     ResultSet rs = null;
-
-    List<Cliente> cliente = new ArrayList<>();
+    List<Cliente> clientes = new ArrayList<>();
 
     try {
       stmt = con.prepareStatement("SELECT * FROM CLIENTES where registro_deletado = false;");
@@ -43,17 +41,18 @@ public class ClienteDAO {
         c.setEmail(rs.getString("email"));
         c.setSenha(rs.getString("senha"));
         c.setRegistro_deletado(rs.getBoolean("registro_deletado"));
-        cliente.add(c);
+        clientes.add(c);
       }
     } catch (SQLException ex) {
-
+      Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }
-    return cliente;
+    return clientes;
   }
-    
-    public void removeCliente(int id) {
+
+
+  public void removeCliente(int id) {
     Connection con = ConexaoDB.obterConexao();
     PreparedStatement stmt = null;
 
@@ -75,14 +74,13 @@ public class ClienteDAO {
     PreparedStatement stmt = null;
 
     try {
-      stmt = con.prepareStatement("INSERT INTO clientes (nome, cpf, telefone, email, senha, cep) VALUES (?, ?, ?, ?, ?, ?);");
+      stmt = con.prepareStatement("INSERT INTO clientes (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?);");
 
       stmt.setString(1, c.getNome());
       stmt.setString(2, c.getCpf());
       stmt.setString(3, c.getTelefone());
       stmt.setString(4, c.getEmail());
       stmt.setString(5, c.getSenha());
-      stmt.setString(6, c.getCep());
 
       stmt.executeUpdate();
     } catch (SQLException ex) {
@@ -91,7 +89,6 @@ public class ClienteDAO {
       ConexaoDB.fecharConexao(con, stmt);
     }
   }
-
 
   public int getUltimoCliente() {
     Connection con = ConexaoDB.obterConexao();
@@ -143,18 +140,19 @@ public class ClienteDAO {
     }
     return c;
   }
-    
-    public void alterarCliente(Cliente c) {
+
+  public void alterarCliente(Cliente c) {
     Connection con = ConexaoDB.obterConexao();
     PreparedStatement stmt = null;
 
     try {
-      stmt = con.prepareStatement("update clientes set nome = ?, telefone = ?, senha = ?  where id = ?;");
+      stmt = con.prepareStatement("update clientes set nome = ?, telefone = ?, senha = ? where id = ?;");
 
       stmt.setString(1, c.getNome());
       stmt.setString(2, c.getTelefone());
       stmt.setString(3, c.getSenha());
       stmt.setInt(4, c.getId());
+
       stmt.executeUpdate();
     } catch (SQLException ex) {
       Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -162,6 +160,7 @@ public class ClienteDAO {
       ConexaoDB.fecharConexao(con, stmt);
     }
   }
+
 
   public Cliente getCliente(String email, String senha) {
     Connection con = ConexaoDB.obterConexao();

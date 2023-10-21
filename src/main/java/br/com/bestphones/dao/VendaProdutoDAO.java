@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.bestphones.dao;
 
 import java.sql.Connection;
@@ -13,13 +8,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.stereotype.Repository;
+
 import br.com.bestphones.model.ProdutoCarrinho;
 import br.com.bestphones.utils.ConexaoDB;
 
-/**
- *
- * @author victoria.sousa
- */
+
+
+@Repository
 public class VendaProdutoDAO {
 
   public void salvarVendaProdutos(int venda_id, List<ProdutoCarrinho> carrinho) {
@@ -54,7 +50,6 @@ public class VendaProdutoDAO {
 
       while (rs.next()) {
         id = rs.getInt("id");
-
       }
     } catch (SQLException ex) {
       Logger.getLogger(VendaProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -63,5 +58,4 @@ public class VendaProdutoDAO {
     }
     return id;
   }
-
 }

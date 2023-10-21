@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.bestphones.dao;
 
 import java.sql.Connection;
@@ -15,12 +10,16 @@ import java.util.logging.Logger;
 import br.com.bestphones.model.Venda;
 import br.com.bestphones.utils.ConexaoDB;
 
-/**
- *
- * @author victoria.sousa
- */
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+
+@Repository
 public class VendaDAO {
 
+  private static final Logger LOGGER = Logger.getLogger(VendaDAO.class.getName());
+
+  @Transactional
   public void salvarVenda(Venda v) {
     Connection con = ConexaoDB.obterConexao();
     PreparedStatement stmt = null;
@@ -37,7 +36,8 @@ public class VendaDAO {
 
       stmt.executeUpdate();
     } catch (SQLException ex) {
-      Logger.getLogger(VendaDAO.class.getName()).log(Level.SEVERE, null, ex);
+      LOGGER.log(Level.SEVERE, "Erro ao salvar a venda.", ex);
+      throw new RuntimeException(ex); // Convertendo em RuntimeException para que a transação possa ser revertida.
     } finally {
       ConexaoDB.fecharConexao(con, stmt);
     }
@@ -55,14 +55,13 @@ public class VendaDAO {
 
       while (rs.next()) {
         id = rs.getInt("id");
-
       }
     } catch (SQLException ex) {
-      Logger.getLogger(VendaDAO.class.getName()).log(Level.SEVERE, null, ex);
+      LOGGER.log(Level.SEVERE, "Erro ao obter a última venda.", ex);
+      throw new RuntimeException(ex); // Convertendo em RuntimeException para que possa ser tratado externamente se necessário.
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }
     return id;
   }
-
 }
