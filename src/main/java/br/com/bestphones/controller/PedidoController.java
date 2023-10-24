@@ -38,10 +38,10 @@ public class PedidoController {
     mv.addObject("pedidos", pedidos);
     return mv;
   }
-  
-  
 
-  
+
+
+
   @GetMapping("/Meus-pedidos/{id}")
   public ModelAndView exibirDetalhesPedido(@PathVariable("id") int id, HttpServletRequest request) {
 
@@ -56,27 +56,17 @@ public class PedidoController {
     produtoCarrinho.setId(id);
     produtoCarrinho.setNome(p.getNome());
     produtoCarrinho.setUrl_imagem(img.get(0).getUrl_imagem());
-    produtoCarrinho.setQtde(1);
+    produtoCarrinho.setQtde(1); // supondo que a quantidade seja fixa
     produtoCarrinho.setPreco(p.getPreco());
 
     HttpSession sessao = request.getSession();
-    List<ProdutoCarrinho> carrinho = (List<ProdutoCarrinho>) sessao.getAttribute("carrinho-compras");
-    if (carrinho == null) {
-      carrinho = new ArrayList<ProdutoCarrinho>();
-    }
-    carrinho.add(produtoCarrinho);
-    sessao.setAttribute("carrinho-compras", carrinho);
 
-    ModelAndView mv = new ModelAndView("redirect:/Carrinho");
-    
-    
-    
+    ModelAndView mv = new ModelAndView("pedidoDetalhe");
 
+    mv.addObject("produtoCarrinho", produtoCarrinho);
     mv.addObject("cep", sessao.getAttribute("cep"));
-    
-    mv.addObject("carrinho", carrinho);
+
     return mv;
   }
-
 
 }

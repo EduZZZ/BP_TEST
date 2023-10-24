@@ -126,9 +126,11 @@
             <td class="text-center" th:text="${pedido.total}" />
             <td class="text-center" th:text="${pedido.status}" />
             <td class="text-center">
-              <form action="#" th:action="@{/Meus-pedidos/} + ${pedido.id}" th:method="get">
-                <button class="btn btn-outline-info btn-sm" type="submit" value="submit">Detalhes</button>
+              <form th:action="@{'/Meus-pedidos/' + ${pedido.id}}" th:method="get">
+                <button class="btn btn-outline-info btn-sm" type="submit">Detalhes</button>
               </form>
+
+
             </td>
           </tr>
         </table>

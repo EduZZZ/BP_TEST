@@ -5,10 +5,7 @@ import br.com.bestphones.utils.ConexaoDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -70,7 +67,7 @@ public class ProdutoDAO {
     PreparedStatement stmt = null;
 
     try {
-      stmt = con.prepareStatement("insert into produtos (nome,descricao_curta,descricao_detalhada,preco,qtde,disponivel_venda,celulares_id, registro_deletado) values ( ?, ?, ?, ?, ?, ?, ?, false);");
+      stmt = con.prepareStatement("insert into produtos (nome,descricao_curta,descricao_detalhada,preco,qtde,disponivel_venda,celulares_id, registro_deletado) values ( ?, ?, ?, ?, ?, ?, ?, ?);");
       stmt.setString(1, p.getNome());
       stmt.setString(2, p.getDescricao_curta());
       stmt.setString(3, p.getDescricao_detalhada());
@@ -78,6 +75,7 @@ public class ProdutoDAO {
       stmt.setInt(5, p.getQtde());
       stmt.setBoolean(6, p.isDisponivel_venda());
       stmt.setInt(7, p.getCelulares_id());
+      stmt.setNull(8, Types.INTEGER);
       stmt.executeUpdate();
       LOGGER.info("Produto com nome " + p.getNome() + " inserido.");
     } catch (SQLException ex) {
