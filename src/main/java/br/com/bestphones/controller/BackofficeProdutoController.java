@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import br.com.bestphones.dao.ConsoleDAO;
+import br.com.bestphones.dao.CelularesDAO;
 import br.com.bestphones.dao.ImagemProdutoDAO;
 import br.com.bestphones.dao.PerguntaRespostaProdutoDAO;
 import br.com.bestphones.dao.ProdutoDAO;
-import br.com.bestphones.model.Console;
+import br.com.bestphones.model.Celulares;
 import br.com.bestphones.model.ImagemProduto;
 import br.com.bestphones.model.PerguntaRespostaProduto;
 import br.com.bestphones.model.Produto;
@@ -39,8 +39,8 @@ public class BackofficeProdutoController {
 
     Produto p = new Produto();
 
-    ConsoleDAO celularesDao = new ConsoleDAO();
-    List<Console> celulares = celularesDao.getcelulares();
+    CelularesDAO celularesDao = new CelularesDAO();
+    List<Celulares> celulares = celularesDao.getcelulares();
 
     ModelAndView mv = new ModelAndView("backoffice-produtos-novo");
 
@@ -57,8 +57,8 @@ public class BackofficeProdutoController {
     ProdutoDAO produtoDao = new ProdutoDAO();
     Produto p = produtoDao.getProdutos(id);
 
-    ConsoleDAO celularesDao = new ConsoleDAO();
-    List<Console> celulares = celularesDao.getcelulares();
+    CelularesDAO celularesDao = new CelularesDAO();
+    List<Celulares> celulares = celularesDao.getcelulares();
 
     ImagemProdutoDAO imagensProdutoDAO = new ImagemProdutoDAO();
     List<ImagemProduto> listaImagens = imagensProdutoDAO.getImagensProduto(id);
@@ -81,8 +81,8 @@ public class BackofficeProdutoController {
     ProdutoDAO produtoDao = new ProdutoDAO();
     Produto p = produtoDao.getProdutos(id);
 
-    ConsoleDAO celularesDao = new ConsoleDAO();
-    Console celulares = celularesDao.getConsolePorId(p.getConsole_id());
+    CelularesDAO celularesDao = new CelularesDAO();
+    Celulares celulares = celularesDao.getCelularesPorId(p.getCelulares_id());
 
     ImagemProdutoDAO imagensProdutoDAO = new ImagemProdutoDAO();
     List<ImagemProduto> listaImagens = imagensProdutoDAO.getImagensProduto(id);

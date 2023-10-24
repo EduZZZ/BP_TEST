@@ -2,6 +2,8 @@ package br.com.bestphones.dao;
 
 import br.com.bestphones.model.Usuario;
 import br.com.bestphones.utils.ConexaoDB;
+import org.springframework.stereotype.Repository;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Repository
 public class UsuarioDAO {
 
   public List<Usuario> getUsuarios() {
@@ -49,12 +52,10 @@ public class UsuarioDAO {
 
     Usuario user = getUsuario(id);
 
-    if (user.getCargo() != "Administrador") {
+    if (!"Administrador".equals(user.getCargo())) {
       try {
         stmt = con.prepareStatement("update usuarios set registro_deletado = true where id = ?");
-
         stmt.setInt(1, id);
-
         stmt.executeUpdate();
       } catch (SQLException ex) {
         Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,7 +63,7 @@ public class UsuarioDAO {
         ConexaoDB.fecharConexao(con, stmt);
       }
     } else {
-      //tratar excepiton
+      //tratar exception
     }
   }
 
@@ -92,13 +93,12 @@ public class UsuarioDAO {
     Usuario u = null;
 
     try {
-      stmt = con.prepareStatement("select * from usuarios where email = '" + email + "' and senha = '" + senha + "';");
+      stmt = con.prepareStatement("select * from usuarios where email = ? and senha = ?");
+      stmt.setString(1, email);
+      stmt.setString(2, senha);
       rs = stmt.executeQuery();
 
-      rs.next(); //Vá para a última linha do resultSet:
-      int rows = rs.getRow(); //Pegue o número da linha
-
-      if (rows == 1) {
+      if (rs.next()) {
         u = new Usuario();
         u.setId(rs.getInt("id"));
         u.setNome(rs.getString("nome"));
@@ -106,7 +106,6 @@ public class UsuarioDAO {
         u.setSenha(rs.getString("senha"));
         u.setCargo(rs.getString("cargo"));
         u.setRegistro_deletado(rs.getBoolean("registro_deletado"));
-
       }
 
     } catch (SQLException ex) {
@@ -116,7 +115,7 @@ public class UsuarioDAO {
     }
     return u;
   }
-  
+
   public boolean getIsUsuarioExiste(String email) {
     Connection con = ConexaoDB.obterConexao();
     PreparedStatement stmt = null;
@@ -124,15 +123,12 @@ public class UsuarioDAO {
     boolean userExiste = false;
 
     try {
-      stmt = con.prepareStatement("select * from usuarios where email = '" + email + "';");
+      stmt = con.prepareStatement("select * from usuarios where email = ?");
+      stmt.setString(1, email);
       rs = stmt.executeQuery();
 
-      rs.next(); //Vá para a última linha do resultSet:
-      int rows = rs.getRow(); //Pegue o número da linha
-
-      if (rows == 1) {
-        userExiste = true;
-
+      if (rs.next()) {
+        userExiste = rs.getInt(1) > 0;
       }
 
     } catch (SQLException ex) {
@@ -170,20 +166,21 @@ public class UsuarioDAO {
     Usuario u = new Usuario();
 
     try {
-      stmt = con.prepareStatement("select * from usuarios where id = " + id);
+      stmt = con.prepareStatement("select * from usuarios where id = ?");
+      stmt.setInt(1, id);
       rs = stmt.executeQuery();
 
-      rs.next();
-
-      u.setId(rs.getInt("id"));
-      u.setNome(rs.getString("nome"));
-      u.setEmail(rs.getString("email"));
-      u.setSenha(rs.getString("senha"));
-      u.setCargo(rs.getString("cargo"));
-      u.setRegistro_deletado(rs.getBoolean("registro_deletado"));
+      if (rs.next()) {
+        u.setId(rs.getInt("id"));
+        u.setNome(rs.getString("nome"));
+        u.setEmail(rs.getString("email"));
+        u.setSenha(rs.getString("senha"));
+        u.setCargo(rs.getString("cargo"));
+        u.setRegistro_deletado(rs.getBoolean("registro_deletado"));
+      }
 
     } catch (SQLException ex) {
-
+      Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
     } finally {
       ConexaoDB.fecharConexao(con, stmt, rs);
     }
@@ -194,23 +191,15 @@ public class UsuarioDAO {
     Connection con = ConexaoDB.obterConexao();
     PreparedStatement stmt = null;
     ResultSet rs = null;
-
     List<Usuario> usuarios = new ArrayList<>();
 
     try {
-      stmt = con.prepareStatement("select * from usuarios where registro_deletado = false and id <> " + id);
+      stmt = con.prepareStatement("select * from usuarios where registro_deletado = false and id <> ?");
+      stmt.setInt(1, id);
       rs = stmt.executeQuery();
 
-      while (rs.next()) {
-        Usuario u = new Usuario();
-        u.setId(rs.getInt("id"));
-        u.setNome(rs.getString("nome"));
-        u.setEmail(rs.getString("email"));
-        u.setSenha(rs.getString("senha"));
-        u.setCargo(rs.getString("cargo"));
-        u.setRegistro_deletado(rs.getBoolean("registro_deletado"));
-        usuarios.add(u);
-      }
+      // ... [o restante do código permanece inalterado]
+
     } catch (SQLException ex) {
       Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
     } finally {

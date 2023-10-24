@@ -11,7 +11,9 @@ import java.util.logging.Logger;
 
 import br.com.bestphones.model.ImagemProduto;
 import br.com.bestphones.utils.ConexaoDB;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ImagemProdutoDAO {
 
   public void salvarImagensProduto(int produto_id, String[] imagens) {

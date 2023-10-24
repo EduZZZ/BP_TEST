@@ -1,18 +1,18 @@
 package br.com.bestphones.model;
 
-public class Console {
+public class Celulares {
     
     private int id;
     private String nome;
 
-    public Console() {}
+    public Celulares() {}
 
-    public Console(int id, String nome) {
+    public Celulares(int id, String nome) {
 	this.id = id;
 	this.nome = nome;
     }
 
-    public Console(String nome) {
+    public Celulares(String nome) {
 	this.nome = nome;
     }
 
@@ -34,7 +34,7 @@ public class Console {
 
     @Override
     public String toString() {
-	return "Console{" + "id=" + id + ", nome=" + nome + '}';
+	return "Celulares{" + "id=" + id + ", nome=" + nome + '}';
     }
 
 }

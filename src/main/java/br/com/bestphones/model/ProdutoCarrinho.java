@@ -45,11 +45,11 @@ public class ProdutoCarrinho {
     this.nome = nome;
   }
 
-  public String getConsole() {
+  public String getCelulares() {
     return celulares;
   }
 
-  public void setConsole(String celulares) {
+  public void setCelulares(String celulares) {
     this.celulares = celulares;
   }
 

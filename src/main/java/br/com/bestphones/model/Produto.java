@@ -90,11 +90,11 @@ public class Produto {
 	this.disponivel_venda = disponivel_venda;
     }
 
-    public int getConsole_id() {
+    public int getCelulares_id() {
 	return celulares_id;
     }
 
-    public void setConsole_id(int celulares_id) {
+    public void setCelulares_id(int celulares_id) {
 	this.celulares_id = celulares_id;
     }
 
