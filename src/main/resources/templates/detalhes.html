@@ -66,22 +66,22 @@
           <a class="nav-link" href="home.html">HOME <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/Home?celulares=PS4">PS4</a>
+          <a class="nav-link" href="/Home?celulares=iPhone">iPhone</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">XBOX ONE</a>
+          <a class="nav-link" href="#">Motorola</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">SWITCH</a>
+          <a class="nav-link" href="#">Samsung</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">PS3</a>
+          <a class="nav-link" href="#">Xiaomi</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">XBOX 360</a>
+          <a class="nav-link" href="#">Asus</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">3DS</a>
+          <a class="nav-link" href="#">LG</a>
         </li>
       </ul>
       <form class="form-inline mt-2 mt-md-0">
@@ -110,7 +110,7 @@
         </div>
         <div class="col-sm-6" style="width: 100%;">
           <p style="font-size: 2rem; margin-left:auto; margin-right: auto;" th:text="${produto.nome}">Zelda Breath of The Wild</p>
-          <p class="font-weight-ligth" th:text="${celulares.nome}">SWITCH</p>
+          <p class="font-weight-ligth" th:text="${celulares.nome}">Samsung</p>
           <p class="font-weight-ligth" th:text="'R$ ' + ${produto.preco}">R$ 350,00</p>
           
           <form action="#" th:action="@{/Carrinho/}" th:method="post">

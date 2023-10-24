@@ -90,7 +90,7 @@ public class EnderecoDAO {
   }
 
   public Endereco getEnderecoEntregaPagamento(int id) {
-    String sql = "SELECT * FROM enderecos WHERE id = ? AND is_faturamento IS NULL;";
+    String sql = "SELECT * FROM enderecos WHERE id = ?;";
     try (Connection con = ConexaoDB.obterConexao();
          PreparedStatement stmt = con.prepareStatement(sql)) {
 
@@ -105,6 +105,7 @@ public class EnderecoDAO {
     }
     return null;
   }
+
 
   public List<Endereco> getEnderecos(int id) {
     List<Endereco> listaEnderecos = new ArrayList<>();
