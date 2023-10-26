@@ -90,7 +90,7 @@ public class ImagemProdutoDAO {
     List<ImagemProduto> listaImagens = new ArrayList<>();
 
     try {
-      stmt = con.prepareStatement("SELECT imagens_produto.produto_id, MAX(imagens_produto.id) AS max_id, MAX(imagens_produto.url_imagem) AS max_url_imagem FROM imagens_produto INNER JOIN produtos ON (imagens_produto.produto_id = produtos.id) WHERE produtos.registro_deletado IS NULL AND produtos.disponivel_venda > 0 GROUP BY imagens_produto.produto_id;");
+      stmt = con.prepareStatement("SELECT imagens_produto.produto_id, MAX(imagens_produto.id) AS max_id, MAX(imagens_produto.url_imagem) AS max_url_imagem FROM imagens_produto INNER JOIN produtos ON (imagens_produto.produto_id = produtos.id) WHERE produtos.registro_deletado=0 AND produtos.disponivel_venda > 0 GROUP BY imagens_produto.produto_id;");
       rs = stmt.executeQuery();
 
       while (rs.next()) {

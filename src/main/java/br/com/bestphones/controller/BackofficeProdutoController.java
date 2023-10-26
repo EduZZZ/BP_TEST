@@ -158,4 +158,22 @@ public class BackofficeProdutoController {
 
   }
 
+  @GetMapping("/Backoffice/ProdutosDeletados")
+  public ModelAndView mostrarProdutosDeletados() {
+    ModelAndView mv = new ModelAndView("backoffice-produtos-deletados");
+    ProdutoDAO produtoDao = new ProdutoDAO();
+    List<Produto> produtosDeletados = produtoDao.getProdutosDeletados();
+    mv.addObject("produtosDeletados", produtosDeletados);
+    return mv;
+  }
+
+  @GetMapping("/Backoffice/ReativarProduto/{id}")
+  public ModelAndView reativarProduto(@PathVariable("id") int id) {
+    ProdutoDAO produtoDao = new ProdutoDAO();
+    produtoDao.reativarProduto(id);
+    return new ModelAndView("redirect:/Backoffice/ProdutosDeletados");
+  }
+
+
+
 }

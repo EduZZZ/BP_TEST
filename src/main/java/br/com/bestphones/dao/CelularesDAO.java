@@ -74,7 +74,7 @@ public class CelularesDAO {
     List<Celulares> listacelulares = new ArrayList<>();
       
     try {
-      stmt = con.prepareStatement("select celulares.* from celulares inner join produtos on (celulares.id = produtos.celulares_id) where produtos.registro_deletado is null and produtos.disponivel_venda > 0 order by produtos.id;");
+      stmt = con.prepareStatement("select celulares.* from celulares inner join produtos on (celulares.id = produtos.celulares_id) where produtos.registro_deletado=0 and produtos.disponivel_venda > 0 order by produtos.id;");
       rs = stmt.executeQuery();
 
       while (rs.next()) {

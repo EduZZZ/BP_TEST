@@ -1,5 +1,7 @@
 package br.com.bestphones.utils;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,6 +10,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Component
 public class ConexaoDB {
 
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";

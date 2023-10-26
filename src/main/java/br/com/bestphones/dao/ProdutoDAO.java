@@ -22,7 +22,7 @@ public class ProdutoDAO {
     List<Produto> produtos = new ArrayList<>();
 
     try {
-      stmt = con.prepareStatement("SELECT * FROM produtos WHERE registro_deletado IS NULL;");
+      stmt = con.prepareStatement("SELECT * FROM produtos WHERE registro_deletado =0;");
       rs = stmt.executeQuery();
 
       while (rs.next()) {
@@ -75,7 +75,7 @@ public class ProdutoDAO {
       stmt.setInt(5, p.getQtde());
       stmt.setBoolean(6, p.isDisponivel_venda());
       stmt.setInt(7, p.getCelulares_id());
-      stmt.setNull(8, Types.INTEGER);
+      stmt.setInt(8, 0);
       stmt.executeUpdate();
       LOGGER.info("Produto com nome " + p.getNome() + " inserido.");
     } catch (SQLException ex) {
@@ -159,4 +159,49 @@ public class ProdutoDAO {
       ConexaoDB.fecharConexao(con, stmt);
     }
   }
+
+  public List<Produto> getProdutosDeletados() {
+    Connection con = ConexaoDB.obterConexao();
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    List<Produto> produtos = new ArrayList<>();
+
+    try {
+      stmt = con.prepareStatement("select * from produtos where registro_deletado = 1;");
+      rs = stmt.executeQuery();
+
+      while (rs.next()) {
+        Produto p = new Produto();
+        p.setId(rs.getInt("id"));
+        p.setNome(rs.getString("nome"));
+        p.setDescricao_curta(rs.getString("descricao_curta"));
+        p.setDescricao_detalhada(rs.getString("descricao_detalhada"));
+        p.setPreco(rs.getFloat("preco"));
+        p.setQtde(rs.getInt("qtde"));
+        p.setDisponivel_venda(rs.getBoolean("disponivel_venda"));
+        p.setCelulares_id(rs.getInt("celulares_id"));
+        produtos.add(p);
+      }
+    } catch (SQLException ex) {
+      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+    } finally {
+      ConexaoDB.fecharConexao(con, stmt, rs);
+    }
+    return produtos;
+  }
+  public void reativarProduto(int id) {
+    Connection con = ConexaoDB.obterConexao();
+    PreparedStatement stmt = null;
+
+    try {
+      stmt = con.prepareStatement("update produtos set registro_deletado = false where id = ?");
+      stmt.setInt(1, id);
+      stmt.executeUpdate();
+    } catch (SQLException ex) {
+      Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+    } finally {
+      ConexaoDB.fecharConexao(con, stmt);
+    }
+  }
+
 }

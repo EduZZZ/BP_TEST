@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,8 @@ import br.com.bestphones.model.Usuario;
 @Controller
 public class BackofficeUsuarioController {
 
+  @Autowired
+  private UsuarioDAO usuarioDao;
   @GetMapping("/Backoffice/Usuarios")
   public ModelAndView mostrarTela(HttpServletRequest request) {
 
@@ -88,5 +91,21 @@ public class BackofficeUsuarioController {
     ModelAndView mv = new ModelAndView("redirect:/Backoffice/Usuarios");
     return mv;
   }
+
+  @GetMapping("/Backoffice/UsuariosDeletados")
+  public ModelAndView mostrarUsuariosDeletados() {
+    ModelAndView mv = new ModelAndView("backoffice-usuarios-deletados");
+    UsuarioDAO usuarioDao = new UsuarioDAO();
+    List<Usuario> usuariosDeletados = usuarioDao.getUsuariosDeletados();
+    mv.addObject("usuariosDeletados", usuariosDeletados);
+    return mv;
+  }
+  @GetMapping("/Backoffice/ReativarUsuario/{id}")
+  public ModelAndView reativarUsuario(@PathVariable("id") int id) {
+    UsuarioDAO usuarioDao = new UsuarioDAO();
+    usuarioDao.reativarUsuario(id);
+    return new ModelAndView("redirect:/Backoffice/UsuariosDeletados");
+  }
+
 
 }
