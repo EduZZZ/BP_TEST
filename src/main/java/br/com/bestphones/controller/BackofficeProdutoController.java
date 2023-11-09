@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.com.bestphones.dao.CelularesDAO;
 import br.com.bestphones.dao.ImagemProdutoDAO;
-import br.com.bestphones.dao.PerguntaRespostaProdutoDAO;
+
 import br.com.bestphones.dao.ProdutoDAO;
 import br.com.bestphones.model.Celulares;
 import br.com.bestphones.model.ImagemProduto;
@@ -63,12 +63,10 @@ public class BackofficeProdutoController {
     ImagemProdutoDAO imagensProdutoDAO = new ImagemProdutoDAO();
     List<ImagemProduto> listaImagens = imagensProdutoDAO.getImagensProduto(id);
 
-    PerguntaRespostaProdutoDAO perguntasRespostasProdutoDAO = new PerguntaRespostaProdutoDAO();
-    List<PerguntaRespostaProduto> listaPerguntasRespostas = perguntasRespostasProdutoDAO.getPerguntasRespostasProduto(id);
+
 
     mv.addObject("produto", p);
     mv.addObject("listaImagens", listaImagens);
-    mv.addObject("listaPerguntasRespostas", listaPerguntasRespostas);
     mv.addObject("celulares", celulares);
 
     return mv;
@@ -87,12 +85,10 @@ public class BackofficeProdutoController {
     ImagemProdutoDAO imagensProdutoDAO = new ImagemProdutoDAO();
     List<ImagemProduto> listaImagens = imagensProdutoDAO.getImagensProduto(id);
 
-    PerguntaRespostaProdutoDAO perguntasRespostasProdutoDAO = new PerguntaRespostaProdutoDAO();
-    List<PerguntaRespostaProduto> listaPerguntasRespostas = perguntasRespostasProdutoDAO.getPerguntasRespostasProduto(id);
+
 
     mv.addObject("produto", p);
     mv.addObject("listaImagens", listaImagens);
-    mv.addObject("listaPerguntasRespostas", listaPerguntasRespostas);
     mv.addObject("celulares", celulares);
 
     return mv;
@@ -112,11 +108,10 @@ public class BackofficeProdutoController {
     ImagemProdutoDAO imagemProdutoDao = new ImagemProdutoDAO();
     imagemProdutoDao.deletarImagensProduto(p.getId());
 
-    PerguntaRespostaProdutoDAO perguntasRespostasProdutoDao = new PerguntaRespostaProdutoDAO();
-    perguntasRespostasProdutoDao.deletarPerguntasRespostasProduto(p.getId());
+
 
     if (imagens != null) imagemProdutoDao.salvarImagensProduto(p.getId(), imagens);
-    if (perguntas !=  null && respostas != null) perguntasRespostasProdutoDao.salvarPerguntasRespostasProduto(p.getId(), perguntas, respostas);
+
 
     ModelAndView mv = new ModelAndView("redirect:/Backoffice/Produtos");
 
@@ -136,10 +131,8 @@ public class BackofficeProdutoController {
     int produto_id = produtoDao.getUltimoProduto();
 
     ImagemProdutoDAO imagemProdutoDao = new ImagemProdutoDAO();
-    PerguntaRespostaProdutoDAO perguntasRespostasProdutoDao = new PerguntaRespostaProdutoDAO();
-    
+
     if (imagens != null) imagemProdutoDao.salvarImagensProduto(produto_id, imagens);
-    if (perguntas !=  null && respostas != null) perguntasRespostasProdutoDao.salvarPerguntasRespostasProduto(produto_id, perguntas, respostas);
 
     ModelAndView mv = new ModelAndView("redirect:/Backoffice/Produtos");
 

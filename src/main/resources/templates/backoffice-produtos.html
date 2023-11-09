@@ -85,9 +85,7 @@
               <!-- Botão para a página de produtos deletados -->
               <a href="/Backoffice/ProdutosDeletados" class="btn btn-outline-danger mb-3">Ver Produtos Deletados</a>
 
-              <form action="#" th:action="@{/Backoffice/Produtos/Novo}" th:method="get">
-                <button class="btn btn-success" type="submit" value="submit" th:disabled="${session.user.cargo == 'Estoquista'}">Adicionar Produto</button>
-              </form>
+
             </div>
           </div>
 
