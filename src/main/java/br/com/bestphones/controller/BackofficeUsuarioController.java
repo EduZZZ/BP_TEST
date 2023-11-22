@@ -22,90 +22,90 @@ import br.com.bestphones.model.Usuario;
 @Controller
 public class BackofficeUsuarioController {
 
-  @Autowired
-  private UsuarioDAO usuarioDao;
-  @GetMapping("/Backoffice/Usuarios")
-  public ModelAndView mostrarTela(HttpServletRequest request) {
+    @Autowired
+    private UsuarioDAO usuarioDao;
 
-    HttpSession sessao = request.getSession();
+    @GetMapping("/Backoffice/Usuarios")
+    public ModelAndView mostrarTela(HttpServletRequest request) {
 
-    Usuario u = (Usuario) sessao.getAttribute("user");
-    
-    
-    ModelAndView mv = new ModelAndView("backoffice-usuarios");
-    UsuarioDAO usuarioDao = new UsuarioDAO();
-    List<Usuario> usuarios = usuarioDao.getUsuarios();
-    mv.addObject("usuarios", usuarios);
-    return mv;
-  }
+        HttpSession sessao = request.getSession();
 
-  @GetMapping("/Backoffice/Usuarios/Novo")
-  public ModelAndView exibirCadastro() {
-    Usuario u = new Usuario();
-    ModelAndView mv = new ModelAndView("backoffice-usuarios-novo");
-    mv.addObject("usuario", u);
-    return mv;
-  }
+        Usuario u = (Usuario) sessao.getAttribute("user");
 
-  @GetMapping("/Backoffice/Usuarios/{id}")
-  public ModelAndView exibirAlterarUsuario(@PathVariable("id") int id) {
-    ModelAndView mv = new ModelAndView("backoffice-usuarios-alterar");
-    UsuarioDAO usuarioDao = new UsuarioDAO();
-    Usuario u = usuarioDao.getUsuario(id);
-    mv.addObject("usuario", u);
-    return mv;
-  }
-
-  @PutMapping("/Backoffice/Usuarios/{id}")
-  public ModelAndView alterarUsuario(
-          @PathVariable("id") int id,
-          @ModelAttribute(value = "usuario") Usuario u) {
-
-    UsuarioDAO usuarioDao = new UsuarioDAO();
-    usuarioDao.alterarUsuario(u);
-    ModelAndView mv = new ModelAndView("redirect:/Backoffice/Usuarios");
-    return mv;
-  }
-
-  @PostMapping("/Backoffice/Usuarios/Novo")
-  public ModelAndView adicionarUsuario(
-          @ModelAttribute(value = "usuario") Usuario u,
-          @RequestParam(value = "repetir-senha", required = true) String repetirSenha) {
-    UsuarioDAO usuarioDao = new UsuarioDAO();
-    boolean usuarioExistente = usuarioDao.getIsUsuarioExiste(u.getEmail());
-    if (!repetirSenha.equals(u.getSenha()) || u.getNome().length() < 5 || usuarioExistente ) {
-      ModelAndView mv = new ModelAndView("backoffice-usuarios-novo");
-      mv.addObject("usuario", u);
-      return mv;
+        ModelAndView mv = new ModelAndView("backoffice-usuarios");
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        List<Usuario> usuarios = usuarioDao.getUsuarios();
+        mv.addObject("usuarios", usuarios);
+        return mv;
     }
 
-    usuarioDao.salvarUsuario(u);
-    ModelAndView mv = new ModelAndView("redirect:/Backoffice/Usuarios");
-    return mv;
-  }
+    @GetMapping("/Backoffice/Usuarios/Novo")
+    public ModelAndView exibirCadastro() {
+        Usuario u = new Usuario();
+        ModelAndView mv = new ModelAndView("backoffice-usuarios-novo");
+        mv.addObject("usuario", u);
+        return mv;
+    }
 
-  @DeleteMapping("/Backoffice/Usuarios/{id}")
-  public ModelAndView removeUsuario(@PathVariable("id") int id) {
-    UsuarioDAO usuarioDao = new UsuarioDAO();
-    usuarioDao.removeUsuario(id);
-    ModelAndView mv = new ModelAndView("redirect:/Backoffice/Usuarios");
-    return mv;
-  }
+    @GetMapping("/Backoffice/Usuarios/{id}")
+    public ModelAndView exibirAlterarUsuario(@PathVariable("id") int id) {
+        ModelAndView mv = new ModelAndView("backoffice-usuarios-alterar");
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        Usuario u = usuarioDao.getUsuario(id);
+        mv.addObject("usuario", u);
+        return mv;
+    }
 
-  @GetMapping("/Backoffice/UsuariosDeletados")
-  public ModelAndView mostrarUsuariosDeletados() {
-    ModelAndView mv = new ModelAndView("backoffice-usuarios-deletados");
-    UsuarioDAO usuarioDao = new UsuarioDAO();
-    List<Usuario> usuariosDeletados = usuarioDao.getUsuariosDeletados();
-    mv.addObject("usuariosDeletados", usuariosDeletados);
-    return mv;
-  }
-  @GetMapping("/Backoffice/ReativarUsuario/{id}")
-  public ModelAndView reativarUsuario(@PathVariable("id") int id) {
-    UsuarioDAO usuarioDao = new UsuarioDAO();
-    usuarioDao.reativarUsuario(id);
-    return new ModelAndView("redirect:/Backoffice/UsuariosDeletados");
-  }
+    @PutMapping("/Backoffice/Usuarios/{id}")
+    public ModelAndView alterarUsuario(
+            @PathVariable("id") int id,
+            @ModelAttribute(value = "usuario") Usuario u) {
 
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        usuarioDao.alterarUsuario(u);
+        ModelAndView mv = new ModelAndView("redirect:/Backoffice/Usuarios");
+        return mv;
+    }
+
+    @PostMapping("/Backoffice/Usuarios/Novo")
+    public ModelAndView adicionarUsuario(
+            @ModelAttribute(value = "usuario") Usuario u,
+            @RequestParam(value = "repetir-senha", required = true) String repetirSenha) {
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        boolean usuarioExistente = usuarioDao.getIsUsuarioExiste(u.getEmail());
+        if (!repetirSenha.equals(u.getSenha()) || u.getNome().length() < 5 || usuarioExistente) {
+            ModelAndView mv = new ModelAndView("backoffice-usuarios-novo");
+            mv.addObject("usuario", u);
+            return mv;
+        }
+
+        usuarioDao.salvarUsuario(u);
+        ModelAndView mv = new ModelAndView("redirect:/Backoffice/Usuarios");
+        return mv;
+    }
+
+    @DeleteMapping("/Backoffice/Usuarios/{id}")
+    public ModelAndView removeUsuario(@PathVariable("id") int id) {
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        usuarioDao.removeUsuario(id);
+        ModelAndView mv = new ModelAndView("redirect:/Backoffice/Usuarios");
+        return mv;
+    }
+
+    @GetMapping("/Backoffice/UsuariosDeletados")
+    public ModelAndView mostrarUsuariosDeletados() {
+        ModelAndView mv = new ModelAndView("backoffice-usuarios-deletados");
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        List<Usuario> usuariosDeletados = usuarioDao.getUsuariosDeletados();
+        mv.addObject("usuariosDeletados", usuariosDeletados);
+        return mv;
+    }
+
+    @GetMapping("/Backoffice/ReativarUsuario/{id}")
+    public ModelAndView reativarUsuario(@PathVariable("id") int id) {
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        usuarioDao.reativarUsuario(id);
+        return new ModelAndView("redirect:/Backoffice/UsuariosDeletados");
+    }
 
 }

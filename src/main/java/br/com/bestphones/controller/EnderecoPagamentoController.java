@@ -20,71 +20,69 @@ import java.util.List;
 @Controller
 public class EnderecoPagamentoController {
 
-  private static final Logger logger = LoggerFactory.getLogger(EnderecoPagamentoController.class);
+    private static final Logger logger = LoggerFactory.getLogger(EnderecoPagamentoController.class);
 
-  // Injetando o DAO (supondo que EnderecoDAO esteja configurado como um bean do Spring)
-  @Autowired
-  private EnderecoDAO enderecosDao;
+    // Injetando o DAO (supondo que EnderecoDAO esteja configurado como um bean do Spring)
+    @Autowired
+    private EnderecoDAO enderecosDao;
 
-  @GetMapping("/Endereco-de-entrega")
-  public ModelAndView mostrarTela(HttpServletRequest request) {
-    ModelAndView mv = new ModelAndView();
-    HttpSession sessao = request.getSession();
-    Cliente c = (Cliente) sessao.getAttribute("cliente");
+    @GetMapping("/Endereco-de-entrega")
+    public ModelAndView mostrarTela(HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView();
+        HttpSession sessao = request.getSession();
+        Cliente c = (Cliente) sessao.getAttribute("cliente");
 
-    if (c == null) {
-      logger.info("Nenhum cliente está logado. Redirecionando para /Login.");
-      mv.setViewName("redirect:/Login");
-    } else {
-      List<Endereco> enderecos = enderecosDao.getEnderecos(c.getId());
+        if (c == null) {
+            logger.info("Nenhum cliente está logado. Redirecionando para /Login.");
+            mv.setViewName("redirect:/Login");
+        } else {
+            List<Endereco> enderecos = enderecosDao.getEnderecos(c.getId());
 
-      logger.info("Cliente {} está logado.", c.getNome());
-      logger.info("Recuperados {} endereços para o cliente {}.", enderecos.size(), c.getNome());
+            logger.info("Cliente {} está logado.", c.getNome());
+            logger.info("Recuperados {} endereços para o cliente {}.", enderecos.size(), c.getNome());
 
-      mv.setViewName("endereco-entrega");
-      mv.addObject("enderecos", enderecos);
+            mv.setViewName("endereco-entrega");
+            mv.addObject("enderecos", enderecos);
+        }
+
+        return mv;
     }
 
-    return mv;
-  }
-
-  @PostMapping("/Endereco-de-entrega/{id}")
-  public String selecionarEndereco(@PathVariable("id") int id, HttpServletRequest request) {
-    HttpSession sessao = request.getSession();
-    sessao.setAttribute("endereco", enderecosDao.getEnderecoEntregaPagamento(id));
-    return "redirect:/Meios-de-pagamento";
-  }
-
-  @PostMapping("/Novo-endereco")
-  public ModelAndView cadastrarEndereco(
-          @Valid @ModelAttribute("endereco") Endereco endereco,
-          BindingResult result,
-          HttpServletRequest request) {
-
-    ModelAndView mv = new ModelAndView("redirect:/Endereco-de-entrega");
-
-    if (result.hasErrors()) {
-      // Aqui você pode adicionar lógica para retornar para o formulário e exibir os erros.
-      mv.setViewName("formulario-endereco");
-      return mv;
+    @PostMapping("/Endereco-de-entrega/{id}")
+    public String selecionarEndereco(@PathVariable("id") int id, HttpServletRequest request) {
+        HttpSession sessao = request.getSession();
+        sessao.setAttribute("endereco", enderecosDao.getEnderecoEntregaPagamento(id));
+        return "redirect:/Meios-de-pagamento";
     }
 
-    HttpSession sessao = request.getSession();
-    Cliente c = (Cliente) sessao.getAttribute("cliente");
+    @PostMapping("/Novo-endereco")
+    public ModelAndView cadastrarEndereco(
+            @Valid @ModelAttribute("endereco") Endereco endereco,
+            BindingResult result,
+            HttpServletRequest request) {
 
-    if (c == null) {
-      logger.error("Tentativa de adicionar um endereço sem estar logado.");
-      mv.setViewName("redirect:/Login");
-      return mv;
+        ModelAndView mv = new ModelAndView("redirect:/Endereco-de-entrega");
+
+        if (result.hasErrors()) {
+            // Aqui você pode adicionar lógica para retornar para o formulário e exibir os erros.
+            mv.setViewName("formulario-endereco");
+            return mv;
+        }
+
+        HttpSession sessao = request.getSession();
+        Cliente c = (Cliente) sessao.getAttribute("cliente");
+
+        if (c == null) {
+            logger.error("Tentativa de adicionar um endereço sem estar logado.");
+            mv.setViewName("redirect:/Login");
+            return mv;
+        }
+
+        endereco.setCliente_id(c.getId());
+        endereco.setIs_faturamento(false);
+
+        enderecosDao.salvarEnderecoCliente(c.getId(), endereco);
+
+        return mv;
     }
-
-    endereco.setCliente_id(c.getId());
-    endereco.setIs_faturamento(false);
-
-    enderecosDao.salvarEnderecoCliente(c.getId(), endereco);
-
-    return mv;
-  }
-
-
 }

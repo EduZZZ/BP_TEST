@@ -6,7 +6,6 @@
 package br.com.bestphones.model;
 
 /**
- *
  * @author victoria.sousa
  */
 public class Pedido {
@@ -14,11 +13,11 @@ public class Pedido {
     private String pedido;
     private int quantidade;
     private float valor;
-    
-    public Pedido(int id, String pedido, int quantidade, float valor ) {
-	this.id = id;
-	this.pedido = pedido;
-	this.quantidade = quantidade;
+
+    public Pedido(int id, String pedido, int quantidade, float valor) {
+        this.id = id;
+        this.pedido = pedido;
+        this.quantidade = quantidade;
         this.valor = valor;
     }
 
@@ -45,6 +44,4 @@ public class Pedido {
     public void setValor(float valor) {
         this.valor = valor;
     }
-    
-    
 }

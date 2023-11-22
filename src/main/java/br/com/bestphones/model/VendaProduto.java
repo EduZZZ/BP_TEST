@@ -1,57 +1,54 @@
 package br.com.bestphones.model;
 
 public class VendaProduto {
-    
+
     private int id;
     private int produto_id;
     private int venda_id;
     private Double valor;
     private int qtd;
-    
 
-  public VendaProduto() {
-  }
 
-  public int getId() {
-    return id;
-  }
+    public VendaProduto() {
+    }
 
-  public void setId(int id) {
-    this.id = id;
-  }
+    public int getId() {
+        return id;
+    }
 
-  public int getProduto_id() {
-    return produto_id;
-  }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-  public void setProduto_id(int produto_id) {
-    this.produto_id = produto_id;
-  }
+    public int getProduto_id() {
+        return produto_id;
+    }
 
-  public int getVenda_id() {
-    return venda_id;
-  }
+    public void setProduto_id(int produto_id) {
+        this.produto_id = produto_id;
+    }
 
-  public void setVenda_id(int venda_id) {
-    this.venda_id = venda_id;
-  }
+    public int getVenda_id() {
+        return venda_id;
+    }
 
-  public Double getValor() {
-    return valor;
-  }
+    public void setVenda_id(int venda_id) {
+        this.venda_id = venda_id;
+    }
 
-  public void setValor(Double valor) {
-    this.valor = valor;
-  }
+    public Double getValor() {
+        return valor;
+    }
 
-  public int getQtd() {
-    return qtd;
-  }
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
 
-  public void setQtd(int qtd) {
-    this.qtd = qtd;
-  }
+    public int getQtd() {
+        return qtd;
+    }
 
-  
-
+    public void setQtd(int qtd) {
+        this.qtd = qtd;
+    }
 }

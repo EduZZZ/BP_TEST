@@ -21,176 +21,176 @@ import java.util.logging.Logger;
 @Repository
 public class ClienteDAO {
 
-  public List<Cliente> getClientes() {
+    public List<Cliente> getClientes() {
 
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    List<Cliente> clientes = new ArrayList<>();
+        Connection con = ConexaoDB.obterConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Cliente> clientes = new ArrayList<>();
 
-    try {
-      stmt = con.prepareStatement("SELECT * FROM CLIENTES where registro_deletado = false;");
-      rs = stmt.executeQuery();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM CLIENTES where registro_deletado = false;");
+            rs = stmt.executeQuery();
 
-      while (rs.next()) {
-        Cliente c = new Cliente();
-        c.setId(rs.getInt("id"));
-        c.setNome(rs.getString("nome"));
-        c.setCpf(rs.getString("cpf"));
-        c.setTelefone(rs.getString("telefone"));
-        c.setEmail(rs.getString("email"));
-        c.setSenha(rs.getString("senha"));
-        c.setRegistro_deletado(rs.getBoolean("registro_deletado"));
-        clientes.add(c);
-      }
-    } catch (SQLException ex) {
-      Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
+            while (rs.next()) {
+                Cliente c = new Cliente();
+                c.setId(rs.getInt("id"));
+                c.setNome(rs.getString("nome"));
+                c.setCpf(rs.getString("cpf"));
+                c.setTelefone(rs.getString("telefone"));
+                c.setEmail(rs.getString("email"));
+                c.setSenha(rs.getString("senha"));
+                c.setRegistro_deletado(rs.getBoolean("registro_deletado"));
+                clientes.add(c);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConexaoDB.fecharConexao(con, stmt, rs);
+        }
+        return clientes;
     }
-    return clientes;
-  }
 
 
-  public void removeCliente(int id) {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
+    public void removeCliente(int id) {
+        Connection con = ConexaoDB.obterConexao();
+        PreparedStatement stmt = null;
 
-    try {
-      stmt = con.prepareStatement("update clientes set registro_deletado = true where id = ?");
+        try {
+            stmt = con.prepareStatement("update clientes set registro_deletado = true where id = ?");
 
-      stmt.setInt(1, id);
+            stmt.setInt(1, id);
 
-      stmt.executeUpdate();
-    } catch (SQLException ex) {
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
 
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt);
+        } finally {
+            ConexaoDB.fecharConexao(con, stmt);
+        }
     }
-  }
 
-  public void salvarCliente(Cliente c) {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
+    public void salvarCliente(Cliente c) {
+        Connection con = ConexaoDB.obterConexao();
+        PreparedStatement stmt = null;
 
-    try {
-      stmt = con.prepareStatement("INSERT INTO clientes (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?);");
+        try {
+            stmt = con.prepareStatement("INSERT INTO clientes (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?);");
 
-      stmt.setString(1, c.getNome());
-      stmt.setString(2, c.getCpf());
-      stmt.setString(3, c.getTelefone());
-      stmt.setString(4, c.getEmail());
-      stmt.setString(5, c.getSenha());
+            stmt.setString(1, c.getNome());
+            stmt.setString(2, c.getCpf());
+            stmt.setString(3, c.getTelefone());
+            stmt.setString(4, c.getEmail());
+            stmt.setString(5, c.getSenha());
 
-      stmt.executeUpdate();
-    } catch (SQLException ex) {
-      Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConexaoDB.fecharConexao(con, stmt);
+        }
     }
-  }
 
-  public int getUltimoCliente() {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    int cliente_id = 0;
+    public int getUltimoCliente() {
+        Connection con = ConexaoDB.obterConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int cliente_id = 0;
 
-    try {
-      stmt = con.prepareStatement("SELECT MAX(id) as id FROM CLIENTEs;");
-      rs = stmt.executeQuery();
+        try {
+            stmt = con.prepareStatement("SELECT MAX(id) as id FROM CLIENTEs;");
+            rs = stmt.executeQuery();
 
-      while (rs.next()) {
-        cliente_id = rs.getInt("id");
+            while (rs.next()) {
+                cliente_id = rs.getInt("id");
 
-      }
-    } catch (SQLException ex) {
-      Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConexaoDB.fecharConexao(con, stmt, rs);
+        }
+        return cliente_id;
     }
-    return cliente_id;
-  }
-    
+
     public Cliente getCliente(int id) {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    Cliente c = new Cliente();
+        Connection con = ConexaoDB.obterConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Cliente c = new Cliente();
 
-    try {
-      stmt = con.prepareStatement("SELECT * FROM CLIENTEs WHERE id = " + id);
-      rs = stmt.executeQuery();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM CLIENTEs WHERE id = " + id);
+            rs = stmt.executeQuery();
 
-      rs.next();
+            rs.next();
 
-      
-        c.setId(rs.getInt("id"));
-        c.setNome(rs.getString("nome"));
-        c.setCpf(rs.getString("cpf"));
-        c.setTelefone(rs.getString("telefone"));
-        c.setEmail(rs.getString("email"));
-        c.setSenha(rs.getString("senha"));
-        
 
-    } catch (SQLException ex) {
+            c.setId(rs.getInt("id"));
+            c.setNome(rs.getString("nome"));
+            c.setCpf(rs.getString("cpf"));
+            c.setTelefone(rs.getString("telefone"));
+            c.setEmail(rs.getString("email"));
+            c.setSenha(rs.getString("senha"));
 
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
+
+        } catch (SQLException ex) {
+
+        } finally {
+            ConexaoDB.fecharConexao(con, stmt, rs);
+        }
+        return c;
     }
-    return c;
-  }
 
-  public void alterarCliente(Cliente c) {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
+    public void alterarCliente(Cliente c) {
+        Connection con = ConexaoDB.obterConexao();
+        PreparedStatement stmt = null;
 
-    try {
-      stmt = con.prepareStatement("update clientes set nome = ?, telefone = ?, senha = ? where id = ?;");
+        try {
+            stmt = con.prepareStatement("update clientes set nome = ?, telefone = ?, senha = ? where id = ?;");
 
-      stmt.setString(1, c.getNome());
-      stmt.setString(2, c.getTelefone());
-      stmt.setString(3, c.getSenha());
-      stmt.setInt(4, c.getId());
+            stmt.setString(1, c.getNome());
+            stmt.setString(2, c.getTelefone());
+            stmt.setString(3, c.getSenha());
+            stmt.setInt(4, c.getId());
 
-      stmt.executeUpdate();
-    } catch (SQLException ex) {
-      Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConexaoDB.fecharConexao(con, stmt);
+        }
     }
-  }
 
 
-  public Cliente getCliente(String email, String senha) {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
-    Cliente c = null;
+    public Cliente getCliente(String email, String senha) {
+        Connection con = ConexaoDB.obterConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Cliente c = null;
 
-    try {
-      stmt = con.prepareStatement("select * from clientes where email = '" + email + "' and senha = '" + senha + "';");
-      rs = stmt.executeQuery();
+        try {
+            stmt = con.prepareStatement("select * from clientes where email = '" + email + "' and senha = '" + senha + "';");
+            rs = stmt.executeQuery();
 
-      rs.next(); //Vá para a última linha do resultSet:
-      int rows = rs.getRow(); //Pegue o número da linha
+            rs.next(); //Vá para a última linha do resultSet:
+            int rows = rs.getRow(); //Pegue o número da linha
 
-      if (rows == 1) {
-        c = new Cliente();
-        c.setId(rs.getInt("id"));
-        c.setNome(rs.getString("nome"));
-        c.setCpf(rs.getString("cpf"));
-        c.setEmail(rs.getString("email"));
-        c.setSenha(rs.getString("senha"));
-        c.setTelefone(rs.getString("telefone"));
+            if (rows == 1) {
+                c = new Cliente();
+                c.setId(rs.getInt("id"));
+                c.setNome(rs.getString("nome"));
+                c.setCpf(rs.getString("cpf"));
+                c.setEmail(rs.getString("email"));
+                c.setSenha(rs.getString("senha"));
+                c.setTelefone(rs.getString("telefone"));
 
-      }
+            }
 
-    } catch (SQLException ex) {
-      Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConexaoDB.fecharConexao(con, stmt, rs);
+        }
+        return c;
     }
-    return c;
-  }
 }

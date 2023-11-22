@@ -23,50 +23,46 @@ import br.com.bestphones.model.ProdutoCarrinho;
 @Controller
 public class PedidoController {
 
-  @GetMapping("/Meus-pedidos")
-  public ModelAndView mostrarTela(HttpServletRequest request) {
+    @GetMapping("/Meus-pedidos")
+    public ModelAndView mostrarTela(HttpServletRequest request) {
 
-    HttpSession sessao = request.getSession();
+        HttpSession sessao = request.getSession();
 
-    Cliente c = (Cliente) sessao.getAttribute("cliente");
-    
-    
-    ModelAndView mv = new ModelAndView("meus-pedidos");
-    PedidoResumidoDAO pedidoResumidoDao = new PedidoResumidoDAO();
-    
-    List<PedidoResumido> pedidos = pedidoResumidoDao.getPedidos(c.getId());
-    mv.addObject("pedidos", pedidos);
-    return mv;
-  }
+        Cliente c = (Cliente) sessao.getAttribute("cliente");
 
 
+        ModelAndView mv = new ModelAndView("meus-pedidos");
+        PedidoResumidoDAO pedidoResumidoDao = new PedidoResumidoDAO();
 
+        List<PedidoResumido> pedidos = pedidoResumidoDao.getPedidos(c.getId());
+        mv.addObject("pedidos", pedidos);
+        return mv;
+    }
 
-  @GetMapping("/Meus-pedidos/{id}")
-  public ModelAndView exibirDetalhesPedido(@PathVariable("id") int id, HttpServletRequest request) {
+    @GetMapping("/Meus-pedidos/{id}")
+    public ModelAndView exibirDetalhesPedido(@PathVariable("id") int id, HttpServletRequest request) {
 
-    ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
+        ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
 
-    ProdutoDAO produtoDao = new ProdutoDAO();
-    ImagemProdutoDAO imagemDao = new ImagemProdutoDAO();
+        ProdutoDAO produtoDao = new ProdutoDAO();
+        ImagemProdutoDAO imagemDao = new ImagemProdutoDAO();
 
-    Produto p = produtoDao.getProdutos(id);
-    List<ImagemProduto> img = imagemDao.getImagensProduto(id);
+        Produto p = produtoDao.getProdutos(id);
+        List<ImagemProduto> img = imagemDao.getImagensProduto(id);
 
-    produtoCarrinho.setId(id);
-    produtoCarrinho.setNome(p.getNome());
-    produtoCarrinho.setUrl_imagem(img.get(0).getUrl_imagem());
-    produtoCarrinho.setQtde(1); // supondo que a quantidade seja fixa
-    produtoCarrinho.setPreco(p.getPreco());
+        produtoCarrinho.setId(id);
+        produtoCarrinho.setNome(p.getNome());
+        produtoCarrinho.setUrl_imagem(img.get(0).getUrl_imagem());
+        produtoCarrinho.setQtde(1); // supondo que a quantidade seja fixa
+        produtoCarrinho.setPreco(p.getPreco());
 
-    HttpSession sessao = request.getSession();
+        HttpSession sessao = request.getSession();
 
-    ModelAndView mv = new ModelAndView("pedidoDetalhe");
+        ModelAndView mv = new ModelAndView("pedidoDetalhe");
 
-    mv.addObject("produtoCarrinho", produtoCarrinho);
-    mv.addObject("cep", sessao.getAttribute("cep"));
+        mv.addObject("produtoCarrinho", produtoCarrinho);
+        mv.addObject("cep", sessao.getAttribute("cep"));
 
-    return mv;
-  }
-
+        return mv;
+    }
 }

@@ -10,14 +10,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class BackofficeHomeController {
-    
+
     @GetMapping("/Backoffice/Home")
     public ModelAndView mostrarTela(HttpServletRequest request) {
-		HttpSession sessao = request.getSession();
+        HttpSession sessao = request.getSession();
         Object x = sessao.getAttribute("user");
-	ModelAndView mv = new ModelAndView("backoffice-home");
+        ModelAndView mv = new ModelAndView("backoffice-home");
         mv.addObject("u", x);
-	return mv;
+        return mv;
     }
 
 }

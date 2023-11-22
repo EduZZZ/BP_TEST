@@ -17,78 +17,77 @@ import java.util.logging.Logger;
 @Repository
 public class CelularesDAO {
 
-  public List<Celulares> getcelulares() {
+    public List<Celulares> getcelulares() {
 
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
+        Connection con = ConexaoDB.obterConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-    List<Celulares> celulares = new ArrayList<>();
+        List<Celulares> celulares = new ArrayList<>();
 
-    try {
-      stmt = con.prepareStatement("SELECT * FROM CELULARES;");
-      rs = stmt.executeQuery();
+        try {
+            stmt = con.prepareStatement("SELECT * FROM CELULARES;");
+            rs = stmt.executeQuery();
 
-      while (rs.next()) {
-        Celulares c = new Celulares();
-        c.setId(rs.getInt("id"));
-        c.setNome(rs.getString("nome"));
-        celulares.add(c);
-      }
-    } catch (SQLException ex) {
-      Logger.getLogger(CelularesDAO.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
+            while (rs.next()) {
+                Celulares c = new Celulares();
+                c.setId(rs.getInt("id"));
+                c.setNome(rs.getString("nome"));
+                celulares.add(c);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CelularesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConexaoDB.fecharConexao(con, stmt, rs);
+        }
+        return celulares;
     }
-    return celulares;
-  }
 
-  public Celulares getCelularesPorId(int celulares_id) {
+    public Celulares getCelularesPorId(int celulares_id) {
 
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
+        Connection con = ConexaoDB.obterConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-    Celulares celulares = new Celulares();
+        Celulares celulares = new Celulares();
 
-    try {
-      stmt = con.prepareStatement("SELECT * FROM CELULARES where id = " + celulares_id);
-      rs = stmt.executeQuery();
-      rs.next();
-      celulares.setId(rs.getInt("id"));
-      celulares.setNome(rs.getString("nome"));
+        try {
+            stmt = con.prepareStatement("SELECT * FROM CELULARES where id = " + celulares_id);
+            rs = stmt.executeQuery();
+            rs.next();
+            celulares.setId(rs.getInt("id"));
+            celulares.setNome(rs.getString("nome"));
 
-    } catch (SQLException ex) {
-      Logger.getLogger(CelularesDAO.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
+        } catch (SQLException ex) {
+            Logger.getLogger(CelularesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConexaoDB.fecharConexao(con, stmt, rs);
+        }
+        return celulares;
     }
-    return celulares;
-  }
 
-  public List<Celulares> getcelularesOrdenado() {
-    Connection con = ConexaoDB.obterConexao();
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
+    public List<Celulares> getcelularesOrdenado() {
+        Connection con = ConexaoDB.obterConexao();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-    List<Celulares> listacelulares = new ArrayList<>();
-      
-    try {
-      stmt = con.prepareStatement("select celulares.* from celulares inner join produtos on (celulares.id = produtos.celulares_id) where produtos.registro_deletado=0 and produtos.disponivel_venda > 0 order by produtos.id;");
-      rs = stmt.executeQuery();
+        List<Celulares> listacelulares = new ArrayList<>();
 
-      while (rs.next()) {
-        Celulares c = new Celulares();
-        c.setId(rs.getInt("id"));
-        c.setNome(rs.getString("nome"));
-        listacelulares.add(c);
-      }
-    } catch (SQLException ex) {
-      Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
-    } finally {
-      ConexaoDB.fecharConexao(con, stmt, rs);
+        try {
+            stmt = con.prepareStatement("select celulares.* from celulares inner join produtos on (celulares.id = produtos.celulares_id) where produtos.registro_deletado=0 and produtos.disponivel_venda > 0 order by produtos.id;");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Celulares c = new Celulares();
+                c.setId(rs.getInt("id"));
+                c.setNome(rs.getString("nome"));
+                listacelulares.add(c);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConexaoDB.fecharConexao(con, stmt, rs);
+        }
+        return listacelulares;
     }
-    return listacelulares;
-  }
-
 }

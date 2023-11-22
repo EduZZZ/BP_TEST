@@ -16,28 +16,27 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-  @Autowired
-  private ProdutoDAO produtoDao;
+    @Autowired
+    private ProdutoDAO produtoDao;
 
-  @Autowired
-  private ImagemProdutoDAO imagemProdutoDao;
+    @Autowired
+    private ImagemProdutoDAO imagemProdutoDao;
 
-  @Autowired
-  private CelularesDAO celularesDao;
+    @Autowired
+    private CelularesDAO celularesDao;
 
-  @GetMapping("/Home")
-  public ModelAndView exibirHome() {
-    ModelAndView mv = new ModelAndView("home");
+    @GetMapping("/Home")
+    public ModelAndView exibirHome() {
+        ModelAndView mv = new ModelAndView("home");
 
-    List<Produto> produtos = produtoDao.getProdutos();
-    List<ImagemProduto> imagens = imagemProdutoDao.getFirstImagensProduto();
-    List<Celulares> celulares = celularesDao.getcelularesOrdenado();
+        List<Produto> produtos = produtoDao.getProdutos();
+        List<ImagemProduto> imagens = imagemProdutoDao.getFirstImagensProduto();
+        List<Celulares> celulares = celularesDao.getcelularesOrdenado();
 
-    mv.addObject("produtos", produtos);
-    mv.addObject("imagens", imagens);
-    mv.addObject("celulares", celulares);
+        mv.addObject("produtos", produtos);
+        mv.addObject("imagens", imagens);
+        mv.addObject("celulares", celulares);
 
-    return mv;
-  }
-
+        return mv;
+    }
 }

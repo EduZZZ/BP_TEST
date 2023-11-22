@@ -24,148 +24,148 @@ import java.util.List;
 @Controller
 public class CheckoutController {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(CheckoutController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CheckoutController.class);
 
-  @Autowired
-  private EnderecoDAO enderecosDao;
+    @Autowired
+    private EnderecoDAO enderecosDao;
 
-  @Autowired
-  private VendaDAO vendaDao;
+    @Autowired
+    private VendaDAO vendaDao;
 
-  @Autowired
-  private VendaProdutoDAO vendaProdutoDao;
+    @Autowired
+    private VendaProdutoDAO vendaProdutoDao;
 
-  @GetMapping("/Checkout")
-  public ModelAndView mostrarTela(HttpServletRequest request) {
-    LOGGER.info("Iniciando processo de checkout...");
+    @GetMapping("/Checkout")
+    public ModelAndView mostrarTela(HttpServletRequest request) {
+        LOGGER.info("Iniciando processo de checkout...");
 
-    ModelAndView mv = new ModelAndView();
-    HttpSession sessao = request.getSession();
-    Cliente c = (Cliente) sessao.getAttribute("cliente");
+        ModelAndView mv = new ModelAndView();
+        HttpSession sessao = request.getSession();
+        Cliente c = (Cliente) sessao.getAttribute("cliente");
 
-    if (c == null) {
-      LOGGER.warn("Nenhum cliente encontrado na sessão. Redirecionando para o Login...");
-      mv.setViewName("redirect:/Login");
-      return mv;
+        if (c == null) {
+            LOGGER.warn("Nenhum cliente encontrado na sessão. Redirecionando para o Login...");
+            mv.setViewName("redirect:/Login");
+            return mv;
+        }
+
+        LOGGER.info("Cliente encontrado na sessão: {}", c.toString());
+
+        try {
+            Endereco e = (Endereco) sessao.getAttribute("endereco");
+            if (e != null) {
+                LOGGER.info("Endereço recuperado da sessão: {}", e.toString());
+            } else {
+                LOGGER.warn("Endereço não encontrado na sessão.");
+            }
+
+            List<ProdutoCarrinho> carrinho = (List<ProdutoCarrinho>) sessao.getAttribute("carrinho-compras");
+            if (carrinho != null) {
+                LOGGER.info("Itens do carrinho recuperados da sessão: {}", carrinho.size());
+            } else {
+                LOGGER.warn("Carrinho de compras não encontrado na sessão.");
+            }
+
+            Double total = (Double) sessao.getAttribute("total");
+            if (total != null) {
+                LOGGER.info("Total do carrinho recuperado da sessão: {}", total);
+            } else {
+                LOGGER.warn("Total não encontrado na sessão.");
+            }
+
+            MeioPagamento pagamento = (MeioPagamento) sessao.getAttribute("pagamento");
+            if (pagamento != null) {
+                LOGGER.info("Meio de pagamento recuperado da sessão: {}", pagamento.toString());
+            } else {
+                LOGGER.warn("Meio de pagamento não encontrado na sessão.");
+            }
+
+            mv.setViewName("checkout");
+            mv.addObject("cliente", c);
+            mv.addObject("endereco", e);
+            mv.addObject("carrinho", carrinho);
+            mv.addObject("pagamento", pagamento);
+            mv.addObject("total", total);
+
+            LOGGER.info("Mostrando tela de checkout para o cliente {}", c.getId());
+        } catch (Exception ex) {
+            LOGGER.error("Erro ao mostrar tela de checkout.", ex);
+        }
+
+        return mv;
     }
 
-    LOGGER.info("Cliente encontrado na sessão: {}", c.toString());
+    @PostMapping("/Checkout")
+    public ModelAndView finalizarCompra(HttpServletRequest request) {
+        LOGGER.info("Iniciando finalização de compra...");
 
-    try {
-      Endereco e = (Endereco) sessao.getAttribute("endereco");
-      if (e != null) {
-        LOGGER.info("Endereço recuperado da sessão: {}", e.toString());
-      } else {
-        LOGGER.warn("Endereço não encontrado na sessão.");
-      }
+        ModelAndView mv = new ModelAndView();
+        HttpSession sessao = request.getSession();
 
-      List<ProdutoCarrinho> carrinho = (List<ProdutoCarrinho>) sessao.getAttribute("carrinho-compras");
-      if (carrinho != null) {
-        LOGGER.info("Itens do carrinho recuperados da sessão: {}", carrinho.size());
-      } else {
-        LOGGER.warn("Carrinho de compras não encontrado na sessão.");
-      }
+        Cliente c = (Cliente) sessao.getAttribute("cliente");
+        MeioPagamento pagamento = (MeioPagamento) sessao.getAttribute("pagamento");
+        Endereco e = (Endereco) sessao.getAttribute("endereco");
+        List<ProdutoCarrinho> carrinho = (List<ProdutoCarrinho>) sessao.getAttribute("carrinho-compras");
+        Double total = (Double) sessao.getAttribute("total");
 
-      Double total = (Double) sessao.getAttribute("total");
-      if (total != null) {
-        LOGGER.info("Total do carrinho recuperado da sessão: {}", total);
-      } else {
-        LOGGER.warn("Total não encontrado na sessão.");
-      }
+        if (c == null) {
+            LOGGER.warn("Cliente não autenticado. Redirecionando para a página de login.");
+            mv.setViewName("redirect:/Login");
+            return mv;
+        }
 
-      MeioPagamento pagamento = (MeioPagamento) sessao.getAttribute("pagamento");
-      if (pagamento != null) {
-        LOGGER.info("Meio de pagamento recuperado da sessão: {}", pagamento.toString());
-      } else {
-        LOGGER.warn("Meio de pagamento não encontrado na sessão.");
-      }
+        if (pagamento == null) {
+            LOGGER.warn("Meio de pagamento não selecionado. Redirecionando para a página de seleção de pagamento.");
+            mv.setViewName("redirect:/SelecaoPagamento");
+            return mv;
+        }
 
-      mv.setViewName("checkout");
-      mv.addObject("cliente", c);
-      mv.addObject("endereco", e);
-      mv.addObject("carrinho", carrinho);
-      mv.addObject("pagamento", pagamento);
-      mv.addObject("total", total);
+        if (e == null) {
+            LOGGER.warn("Endereço de entrega não definido. Redirecionando para a página de endereços.");
+            mv.setViewName("redirect:/Enderecos");
+            return mv;
+        }
 
-      LOGGER.info("Mostrando tela de checkout para o cliente {}", c.getId());
-    } catch (Exception ex) {
-      LOGGER.error("Erro ao mostrar tela de checkout.", ex);
+        if (carrinho == null || carrinho.isEmpty()) {
+            LOGGER.warn("Carrinho de compras vazio. Redirecionando para a página de produtos.");
+            mv.setViewName("redirect:/Produtos");
+            return mv;
+        }
+
+        if (total == null) {
+            LOGGER.error("Não foi possível recuperar o total do carrinho. Redirecionando para a página do carrinho para recalculo.");
+            mv.setViewName("redirect:/Carrinho");
+            return mv;
+        }
+
+        // Processamento da venda:
+        VendaDAO vendaDao = new VendaDAO();
+        VendaProdutoDAO vendaProdutoDao = new VendaProdutoDAO();
+
+        Venda v = new Venda();
+        v.setCliente_id(c.getId());
+        v.setEndereco_id(e.getId());
+        if (pagamento.getMeio_pagamento().equals("boleto")) {
+            v.setMeio_pagamento_id(1);
+        } else {
+            v.setMeio_pagamento_id(2);
+        }
+        v.setStatus_id(1);
+        v.setTotal(total);
+        v.setObs(pagamento.getQtd_parcelas());
+
+        vendaDao.salvarVenda(v);
+        int venda_id = vendaDao.getUltimaVenda();
+        vendaProdutoDao.salvarVendaProdutos(venda_id, carrinho);
+        v.setId(venda_id);
+
+        mv.setViewName("venda-finalizada");
+        mv.addObject("venda", v);
+        mv.addObject("pagamento", pagamento);
+        mv.addObject("total", total);
+
+        LOGGER.info("Compra finalizada com sucesso.");
+
+        return mv;
     }
-
-    return mv;
-  }
-
-  @PostMapping("/Checkout")
-  public ModelAndView finalizarCompra(HttpServletRequest request) {
-    LOGGER.info("Iniciando finalização de compra...");
-
-    ModelAndView mv = new ModelAndView();
-    HttpSession sessao = request.getSession();
-
-    Cliente c = (Cliente) sessao.getAttribute("cliente");
-    MeioPagamento pagamento = (MeioPagamento) sessao.getAttribute("pagamento");
-    Endereco e = (Endereco) sessao.getAttribute("endereco");
-    List<ProdutoCarrinho> carrinho = (List<ProdutoCarrinho>) sessao.getAttribute("carrinho-compras");
-    Double total = (Double) sessao.getAttribute("total");
-
-    if (c == null) {
-      LOGGER.warn("Cliente não autenticado. Redirecionando para a página de login.");
-      mv.setViewName("redirect:/Login");
-      return mv;
-    }
-
-    if (pagamento == null) {
-      LOGGER.warn("Meio de pagamento não selecionado. Redirecionando para a página de seleção de pagamento.");
-      mv.setViewName("redirect:/SelecaoPagamento");
-      return mv;
-    }
-
-    if (e == null) {
-      LOGGER.warn("Endereço de entrega não definido. Redirecionando para a página de endereços.");
-      mv.setViewName("redirect:/Enderecos");
-      return mv;
-    }
-
-    if (carrinho == null || carrinho.isEmpty()) {
-      LOGGER.warn("Carrinho de compras vazio. Redirecionando para a página de produtos.");
-      mv.setViewName("redirect:/Produtos");
-      return mv;
-    }
-
-    if (total == null) {
-      LOGGER.error("Não foi possível recuperar o total do carrinho. Redirecionando para a página do carrinho para recalculo.");
-      mv.setViewName("redirect:/Carrinho");
-      return mv;
-    }
-
-    // Processamento da venda:
-    VendaDAO vendaDao = new VendaDAO();
-    VendaProdutoDAO vendaProdutoDao = new VendaProdutoDAO();
-
-    Venda v = new Venda();
-    v.setCliente_id(c.getId());
-    v.setEndereco_id(e.getId());
-    if (pagamento.getMeio_pagamento().equals("boleto")) {
-      v.setMeio_pagamento_id(1);
-    } else {
-      v.setMeio_pagamento_id(2);
-    }
-    v.setStatus_id(1);
-    v.setTotal(total);
-    v.setObs(pagamento.getQtd_parcelas());
-
-    vendaDao.salvarVenda(v);
-    int venda_id = vendaDao.getUltimaVenda();
-    vendaProdutoDao.salvarVendaProdutos(venda_id, carrinho);
-    v.setId(venda_id);
-
-    mv.setViewName("venda-finalizada");
-    mv.addObject("venda", v);
-    mv.addObject("pagamento", pagamento);
-    mv.addObject("total", total);
-
-    LOGGER.info("Compra finalizada com sucesso.");
-
-    return mv;
-  }
 }

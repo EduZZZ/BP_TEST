@@ -15,31 +15,31 @@ import br.com.bestphones.model.Usuario;
 @Controller
 public class BackofficeLoginController {
 
-  @GetMapping("/Backoffice/Login")
-  public ModelAndView mostrarTela() {
-    Usuario u = new Usuario();
-    ModelAndView mv = new ModelAndView("backoffice-login");
-    mv.addObject("usuario", u);
-    return mv;
-  }
-
-  @PostMapping("/Backoffice/Login")
-  public ModelAndView login(
-          @ModelAttribute(value = "usuario") Usuario u,
-          HttpServletRequest request) {
-    UsuarioDAO usuarioDao = new UsuarioDAO();
-    ModelAndView mv;
-
-    u = usuarioDao.getUsuario(u.getEmail(), u.getSenha());
-    if (u != null ) {
-      HttpSession sessao = request.getSession();
-      sessao.setAttribute("user", u);
-      mv = new ModelAndView("redirect:/Backoffice/Home");
-      mv.addObject("u", u);
-    } else {
-      mv = new ModelAndView("backoffice-login");
-      mv.addObject("usuario", new Usuario());
+    @GetMapping("/Backoffice/Login")
+    public ModelAndView mostrarTela() {
+        Usuario u = new Usuario();
+        ModelAndView mv = new ModelAndView("backoffice-login");
+        mv.addObject("usuario", u);
+        return mv;
     }
-    return mv;
-  }
+
+    @PostMapping("/Backoffice/Login")
+    public ModelAndView login(
+            @ModelAttribute(value = "usuario") Usuario u,
+            HttpServletRequest request) {
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        ModelAndView mv;
+
+        u = usuarioDao.getUsuario(u.getEmail(), u.getSenha());
+        if (u != null) {
+            HttpSession sessao = request.getSession();
+            sessao.setAttribute("user", u);
+            mv = new ModelAndView("redirect:/Backoffice/Home");
+            mv.addObject("u", u);
+        } else {
+            mv = new ModelAndView("backoffice-login");
+            mv.addObject("usuario", new Usuario());
+        }
+        return mv;
+    }
 }

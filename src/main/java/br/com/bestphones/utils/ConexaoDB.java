@@ -19,45 +19,44 @@ public class ConexaoDB {
     private static final String PASSWORD = "root";
 
     public static Connection obterConexao() {
-	try {
-	    Class.forName(DRIVER);
-	    return DriverManager.getConnection(URL, USER, PASSWORD);
+        try {
+            Class.forName(DRIVER);
+            return DriverManager.getConnection(URL, USER, PASSWORD);
 
-	} catch (ClassNotFoundException | SQLException e) {
-	    throw new RuntimeException("Erro de conexão: ", e);
-	}
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException("Erro de conexão: ", e);
+        }
     }
 
     public static void fecharConexao(Connection con) {
-	if (con != null) {
-	    try {
-		con.close();
-	    } catch (SQLException ex) {
-		Logger.getLogger(ConexaoDB.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-	}
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ConexaoDB.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public static void fecharConexao(Connection con, PreparedStatement stmt) {
-	fecharConexao(con);
-	if (stmt != null) {
-	    try {
-		stmt.close();
-	    } catch (SQLException ex) {
-		Logger.getLogger(ConexaoDB.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-	}
+        fecharConexao(con);
+        if (stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ConexaoDB.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public static void fecharConexao(Connection con, PreparedStatement stmt, ResultSet rs) {
-	fecharConexao(con, stmt);
-	if (rs != null) {
-	    try {
-		rs.close();
-	    } catch (SQLException ex) {
-		Logger.getLogger(ConexaoDB.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-	}
+        fecharConexao(con, stmt);
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ConexaoDB.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
-
 }

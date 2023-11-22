@@ -24,149 +24,145 @@ import br.com.bestphones.model.Produto;
 @Controller
 public class BackofficeProdutoController {
 
-  @GetMapping("/Backoffice/Produtos")
-  public ModelAndView mostrarTela() {
+    @GetMapping("/Backoffice/Produtos")
+    public ModelAndView mostrarTela() {
 
-    ModelAndView mv = new ModelAndView("backoffice-produtos");
-    ProdutoDAO produtoDao = new ProdutoDAO();
-    List<Produto> produtos = produtoDao.getProdutos();
-    mv.addObject("games", produtos);
-    return mv;
-  }
+        ModelAndView mv = new ModelAndView("backoffice-produtos");
+        ProdutoDAO produtoDao = new ProdutoDAO();
+        List<Produto> produtos = produtoDao.getProdutos();
+        mv.addObject("games", produtos);
+        return mv;
+    }
 
-  @GetMapping("/Backoffice/Produtos/Novo")
-  public ModelAndView exibirCadastro() {
+    @GetMapping("/Backoffice/Produtos/Novo")
+    public ModelAndView exibirCadastro() {
 
-    Produto p = new Produto();
+        Produto p = new Produto();
 
-    CelularesDAO celularesDao = new CelularesDAO();
-    List<Celulares> celulares = celularesDao.getcelulares();
+        CelularesDAO celularesDao = new CelularesDAO();
+        List<Celulares> celulares = celularesDao.getcelulares();
 
-    ModelAndView mv = new ModelAndView("backoffice-produtos-novo");
+        ModelAndView mv = new ModelAndView("backoffice-produtos-novo");
 
-    mv.addObject("celulares", celulares);
-    mv.addObject("produto", p);
+        mv.addObject("celulares", celulares);
+        mv.addObject("produto", p);
 
-    return mv;
-  }
+        return mv;
+    }
 
-  @GetMapping("/Backoffice/Produtos/{id}")
-  public ModelAndView exibirAlterarProduto(@PathVariable("id") int id) {
+    @GetMapping("/Backoffice/Produtos/{id}")
+    public ModelAndView exibirAlterarProduto(@PathVariable("id") int id) {
 
-    ModelAndView mv = new ModelAndView("backoffice-produtos-alterar");
-    ProdutoDAO produtoDao = new ProdutoDAO();
-    Produto p = produtoDao.getProdutos(id);
+        ModelAndView mv = new ModelAndView("backoffice-produtos-alterar");
+        ProdutoDAO produtoDao = new ProdutoDAO();
+        Produto p = produtoDao.getProdutos(id);
 
-    CelularesDAO celularesDao = new CelularesDAO();
-    List<Celulares> celulares = celularesDao.getcelulares();
+        CelularesDAO celularesDao = new CelularesDAO();
+        List<Celulares> celulares = celularesDao.getcelulares();
 
-    ImagemProdutoDAO imagensProdutoDAO = new ImagemProdutoDAO();
-    List<ImagemProduto> listaImagens = imagensProdutoDAO.getImagensProduto(id);
-
-
-
-    mv.addObject("produto", p);
-    mv.addObject("listaImagens", listaImagens);
-    mv.addObject("celulares", celulares);
-
-    return mv;
-  }
-  
-  @GetMapping("/Backoffice/Produtos/Visualizar/{id}")
-  public ModelAndView verProduto(@PathVariable("id") int id) {
-
-    ModelAndView mv = new ModelAndView("detalhes");
-    ProdutoDAO produtoDao = new ProdutoDAO();
-    Produto p = produtoDao.getProdutos(id);
-
-    CelularesDAO celularesDao = new CelularesDAO();
-    Celulares celulares = celularesDao.getCelularesPorId(p.getCelulares_id());
-
-    ImagemProdutoDAO imagensProdutoDAO = new ImagemProdutoDAO();
-    List<ImagemProduto> listaImagens = imagensProdutoDAO.getImagensProduto(id);
+        ImagemProdutoDAO imagensProdutoDAO = new ImagemProdutoDAO();
+        List<ImagemProduto> listaImagens = imagensProdutoDAO.getImagensProduto(id);
 
 
+        mv.addObject("produto", p);
+        mv.addObject("listaImagens", listaImagens);
+        mv.addObject("celulares", celulares);
 
-    mv.addObject("produto", p);
-    mv.addObject("listaImagens", listaImagens);
-    mv.addObject("celulares", celulares);
+        return mv;
+    }
 
-    return mv;
-  }
+    @GetMapping("/Backoffice/Produtos/Visualizar/{id}")
+    public ModelAndView verProduto(@PathVariable("id") int id) {
 
-  @PutMapping("/Backoffice/Produtos/{id}")
-  public ModelAndView alterarProduto(
-          @PathVariable("id") int id,
-          @ModelAttribute(value = "produto") Produto p,
-          @RequestParam(value = "imagem", required = false) String[] imagens,
-          @RequestParam(value = "pergunta", required = false) String[] perguntas,
-          @RequestParam(value = "resposta", required = false) String[] respostas) {
+        ModelAndView mv = new ModelAndView("detalhes");
+        ProdutoDAO produtoDao = new ProdutoDAO();
+        Produto p = produtoDao.getProdutos(id);
 
-    ProdutoDAO produtoDao = new ProdutoDAO();
-    produtoDao.alterarProduto(p);
+        CelularesDAO celularesDao = new CelularesDAO();
+        Celulares celulares = celularesDao.getCelularesPorId(p.getCelulares_id());
 
-    ImagemProdutoDAO imagemProdutoDao = new ImagemProdutoDAO();
-    imagemProdutoDao.deletarImagensProduto(p.getId());
+        ImagemProdutoDAO imagensProdutoDAO = new ImagemProdutoDAO();
+        List<ImagemProduto> listaImagens = imagensProdutoDAO.getImagensProduto(id);
 
 
+        mv.addObject("produto", p);
+        mv.addObject("listaImagens", listaImagens);
+        mv.addObject("celulares", celulares);
 
-    if (imagens != null) imagemProdutoDao.salvarImagensProduto(p.getId(), imagens);
+        return mv;
+    }
+
+    @PutMapping("/Backoffice/Produtos/{id}")
+    public ModelAndView alterarProduto(
+            @PathVariable("id") int id,
+            @ModelAttribute(value = "produto") Produto p,
+            @RequestParam(value = "imagem", required = false) String[] imagens,
+            @RequestParam(value = "pergunta", required = false) String[] perguntas,
+            @RequestParam(value = "resposta", required = false) String[] respostas) {
+
+        ProdutoDAO produtoDao = new ProdutoDAO();
+        produtoDao.alterarProduto(p);
+
+        ImagemProdutoDAO imagemProdutoDao = new ImagemProdutoDAO();
+        imagemProdutoDao.deletarImagensProduto(p.getId());
 
 
-    ModelAndView mv = new ModelAndView("redirect:/Backoffice/Produtos");
+        if (imagens != null) imagemProdutoDao.salvarImagensProduto(p.getId(), imagens);
 
-    return mv;
-  }
 
-  @PostMapping("/Backoffice/Produtos/Novo")
-  public ModelAndView adicionarProduto(
-          @ModelAttribute(value = "produto") Produto p,
-          @RequestParam(value = "imagem", required = false) String[] imagens,
-          @RequestParam(value = "pergunta", required = false) String[] perguntas,
-          @RequestParam(value = "resposta", required = false) String[] respostas) {
+        ModelAndView mv = new ModelAndView("redirect:/Backoffice/Produtos");
 
-    ProdutoDAO produtoDao = new ProdutoDAO();
-    produtoDao.salvarProduto(p);
+        return mv;
+    }
 
-    int produto_id = produtoDao.getUltimoProduto();
+    @PostMapping("/Backoffice/Produtos/Novo")
+    public ModelAndView adicionarProduto(
+            @ModelAttribute(value = "produto") Produto p,
+            @RequestParam(value = "imagem", required = false) String[] imagens,
+            @RequestParam(value = "pergunta", required = false) String[] perguntas,
+            @RequestParam(value = "resposta", required = false) String[] respostas) {
 
-    ImagemProdutoDAO imagemProdutoDao = new ImagemProdutoDAO();
+        ProdutoDAO produtoDao = new ProdutoDAO();
+        produtoDao.salvarProduto(p);
 
-    if (imagens != null) imagemProdutoDao.salvarImagensProduto(produto_id, imagens);
+        int produto_id = produtoDao.getUltimoProduto();
 
-    ModelAndView mv = new ModelAndView("redirect:/Backoffice/Produtos");
+        ImagemProdutoDAO imagemProdutoDao = new ImagemProdutoDAO();
 
-    return mv;
-  }
+        if (imagens != null) imagemProdutoDao.salvarImagensProduto(produto_id, imagens);
 
-  @DeleteMapping("/Backoffice/Produtos/{id}")
-  public ModelAndView removeProduto(@PathVariable("id") int id) {
+        ModelAndView mv = new ModelAndView("redirect:/Backoffice/Produtos");
 
-    ProdutoDAO produtoDao = new ProdutoDAO();
-    produtoDao.removeProduto(id);
+        return mv;
+    }
 
-    ModelAndView mv = new ModelAndView("redirect:/Backoffice/Produtos");
+    @DeleteMapping("/Backoffice/Produtos/{id}")
+    public ModelAndView removeProduto(@PathVariable("id") int id) {
 
-    return mv;
+        ProdutoDAO produtoDao = new ProdutoDAO();
+        produtoDao.removeProduto(id);
 
-  }
+        ModelAndView mv = new ModelAndView("redirect:/Backoffice/Produtos");
 
-  @GetMapping("/Backoffice/ProdutosDeletados")
-  public ModelAndView mostrarProdutosDeletados() {
-    ModelAndView mv = new ModelAndView("backoffice-produtos-deletados");
-    ProdutoDAO produtoDao = new ProdutoDAO();
-    List<Produto> produtosDeletados = produtoDao.getProdutosDeletados();
-    mv.addObject("produtosDeletados", produtosDeletados);
-    return mv;
-  }
+        return mv;
 
-  @GetMapping("/Backoffice/ReativarProduto/{id}")
-  public ModelAndView reativarProduto(@PathVariable("id") int id) {
-    ProdutoDAO produtoDao = new ProdutoDAO();
-    produtoDao.reativarProduto(id);
-    return new ModelAndView("redirect:/Backoffice/ProdutosDeletados");
-  }
+    }
 
+    @GetMapping("/Backoffice/ProdutosDeletados")
+    public ModelAndView mostrarProdutosDeletados() {
+        ModelAndView mv = new ModelAndView("backoffice-produtos-deletados");
+        ProdutoDAO produtoDao = new ProdutoDAO();
+        List<Produto> produtosDeletados = produtoDao.getProdutosDeletados();
+        mv.addObject("produtosDeletados", produtosDeletados);
+        return mv;
+    }
+
+    @GetMapping("/Backoffice/ReativarProduto/{id}")
+    public ModelAndView reativarProduto(@PathVariable("id") int id) {
+        ProdutoDAO produtoDao = new ProdutoDAO();
+        produtoDao.reativarProduto(id);
+        return new ModelAndView("redirect:/Backoffice/ProdutosDeletados");
+    }
 
 
 }
