@@ -2,6 +2,7 @@ package br.com.bestphones.controller;
 
 import java.util.List;
 
+import br.com.bestphones.dao.PedidoResumidoDAO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,22 @@ import br.com.bestphones.model.Produto;
 @Controller
 public class BackofficeProdutoController {
 
+<<<<<<< HEAD
+
+  private final PedidoResumidoDAO pedidoResumidoDao;
+
+  public BackofficeProdutoController(PedidoResumidoDAO pedidoResumidoDao) {
+    this.pedidoResumidoDao = pedidoResumidoDao;
+  }
+
+
+
+  @GetMapping("/Backoffice/Produtos")
+  public ModelAndView mostrarTela() {
+=======
     @GetMapping("/Backoffice/Produtos")
     public ModelAndView mostrarTela() {
+>>>>>>> f9f132647128c5cb96614f255e5dfd5f2ba72270
 
         ModelAndView mv = new ModelAndView("backoffice-produtos");
         ProdutoDAO produtoDao = new ProdutoDAO();
@@ -157,6 +172,8 @@ public class BackofficeProdutoController {
         return mv;
     }
 
+<<<<<<< HEAD
+=======
     @GetMapping("/Backoffice/ReativarProduto/{id}")
     public ModelAndView reativarProduto(@PathVariable("id") int id) {
         ProdutoDAO produtoDao = new ProdutoDAO();
@@ -165,4 +182,5 @@ public class BackofficeProdutoController {
     }
 
 
+>>>>>>> f9f132647128c5cb96614f255e5dfd5f2ba72270
 }

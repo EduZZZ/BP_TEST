@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <title>Administração de Pedidos - Best Phones</title>
+  <style>
+    .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+      background-color: #f5f5f5;
+    }
+    .table-borderless th, .table-borderless td {
+      border: 0 !important;
+    }
+    .footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: #f8f9fa;
+      color: black;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+<!-- Menu component start -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/Backoffice/Home">BestPhones!</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo" aria-controls="navbarTogglerDemo" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" href="/Backoffice/Home">HOME</a>
+      </li>
+      <li class="nav-item" th:if="${session.user.cargo == 'Administrador'}">
+        <a class="nav-link" href="/Backoffice/Usuarios">USUÁRIOS</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/Backoffice/Produtos">PRODUTOS</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/Backoffice/Pedidos">PEDIDOS<span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- Menu component end -->
+
+<!-- Main content -->
+<main class="container mt-4">
+  <h1 class="display-4">Administração de Pedidos</h1>
+  <table class="table table-hover table-borderless">
+    <thead class="thead-light">
+    <tr>
+      <th class="text-center">ID do Pedido</th>
+      <th class="text-center">Total</th>
+      <th class="text-center">Status</th>
+      <th class="text-center">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pedido : ${pedidos}">
+      <td class="text-center" th:text="${pedido.id}"></td>
+      <td class="text-center" th:text="${pedido.total}"></td>
+      <td class="text-center" th:text="${pedido.status}"></td>
+      <td class="text-center">
+        <a th:href="@{/Backoffice/Pedidos/Detalhes/{id}(id=${pedido.id})}" class="btn btn-outline-info btn-sm">Detalhes</a>
+        <form th:if="${session.user.cargo == 'Administrador' || session.user.cargo == 'Estoquista'}" th:action="@{/Backoffice/Pedidos/AtualizarStatus}" method="post">
+          <input type="hidden" name="pedidoId" th:value="${pedido.id}" />
+          <button class="btn btn-outline-secondary btn-sm" type="submit">Atualizar para Próximo Status</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</main>
+
+<!-- Footer component start -->
+<footer class="footer">
+  <div class="container">
+    <span class="text-muted">© 2023 Best Phones! Todos os direitos reservados.</span>
+  </div>
+</footer>
+<!-- Footer component end -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

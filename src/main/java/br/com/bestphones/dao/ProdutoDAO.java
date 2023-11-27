@@ -5,6 +5,8 @@ import br.com.bestphones.utils.ConexaoDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +115,25 @@ public class ProdutoDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         Produto p = new Produto();
+<<<<<<< HEAD
+        p.setId(rs.getInt("id"));
+        p.setNome(rs.getString("nome"));
+        p.setDescricao_curta(rs.getString("descricao_curta"));
+        p.setDescricao_detalhada(rs.getString("descricao_detalhada"));
+        BigDecimal preco = BigDecimal.valueOf(rs.getFloat("preco"));
+        preco = preco.setScale(2, RoundingMode.HALF_UP); // Arredonda para duas casas decimais
+        p.setPreco(preco.floatValue());
+        p.setQtde(rs.getInt("qtde"));
+        p.setDisponivel_venda(rs.getBoolean("disponivel_venda"));
+        p.setCelulares_id(rs.getInt("celulares_id"));
+        produtos.add(p);
+      }
+      LOGGER.info("Produtos recuperados: " + produtos.size());
+    } catch (SQLException ex) {
+      LOGGER.log(Level.SEVERE, "Erro ao recuperar produtos.", ex);
+    } finally {
+      ConexaoDB.fecharConexao(con, stmt, rs);
+=======
 
         try {
             stmt = con.prepareStatement("SELECT * FROM produtos WHERE id = ?");
@@ -136,6 +157,7 @@ public class ProdutoDAO {
             ConexaoDB.fecharConexao(con, stmt, rs);
         }
         return p;
+>>>>>>> f9f132647128c5cb96614f255e5dfd5f2ba72270
     }
 
     public void alterarProduto(Produto p) {
